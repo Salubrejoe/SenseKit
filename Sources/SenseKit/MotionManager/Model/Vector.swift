@@ -2,7 +2,7 @@
 import CoreMotion
 
 
-struct Vector<UnitType: Dimension>: Equatable {
+public struct Vector<UnitType: Dimension>: Equatable {
   
   static var zero: Vector {
     .init(x: .init(value: 0, unit: UnitType.baseUnit()),

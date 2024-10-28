@@ -1,8 +1,8 @@
 
 import Foundation
 
-extension MotionManager {
-  public func handleError(_ error: Error) {
+public extension MotionManager {
+  func handleError(_ error: Error) {
     // Handle error accordingly (e.g., log the error, show alerts, etc.)
     print("Error occurred: \(error)")
   }

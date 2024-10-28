@@ -4,7 +4,7 @@ import CoreMotion
 
 
 @Observable
-final class MotionManager: NSObject, CLLocationManagerDelegate {
+public class MotionManager: NSObject, CLLocationManagerDelegate {
   public static let stream = MotionManager()
    
   public let updateInterval = 0.2

@@ -2,9 +2,9 @@
 import CoreMotion
 
 
-extension MotionManager {
+public extension MotionManager {
   
-  public func startAltimeter() throws {
+  func startAltimeter() throws {
     guard CMAltimeter.isRelativeAltitudeAvailable() else {
       throw MotionManagerError.altimeterUnavailable
     }

@@ -2,9 +2,9 @@
 import CoreMotion
 
 
-extension MotionManager {
+public extension MotionManager {
   
-  public func startDeviceMotion() throws {
+  func startDeviceMotion() throws {
     guard motion.isDeviceMotionAvailable else {
       throw MotionManagerError.deviceMotionUnavailable
     }
@@ -45,7 +45,7 @@ extension MotionManager {
 }
 
 
-extension MotionManager {
+public extension MotionManager {
   private func calculateAttitude(from motionData: CMDeviceMotion) -> Vector<UnitAngle> {
     let pitch = Measurement<UnitAngle>(value: motionData.attitude.pitch, unit: .radians)
     let roll = Measurement<UnitAngle>(value: motionData.attitude.roll, unit: .radians)

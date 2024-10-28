@@ -2,9 +2,9 @@
 import Foundation
 
 
-extension MotionManager {
+public extension MotionManager {
   
-  public func axisXOffset(max maxOffset: CGFloat) -> CGFloat {
+  func axisXOffset(max maxOffset: CGFloat) -> CGFloat {
     guard let x = userAcceleration?.x else { return 0 }
     return maxOffset * x.value
   }

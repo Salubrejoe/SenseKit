@@ -3,9 +3,9 @@ import Foundation
 import CoreMotion
 
 
-extension MotionManager {
+public extension MotionManager {
   
-  public var activityString: String {
+  var activityString: String {
     guard let activity else { return "No activity" }
     
     switch true {

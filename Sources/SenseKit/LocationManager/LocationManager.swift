@@ -4,7 +4,7 @@ import CoreLocation
 
 
 @Observable
-final class LocationManager: NSObject, CLLocationManagerDelegate {
+public class LocationManager: NSObject, CLLocationManagerDelegate {
   
   public let locationManager = CLLocationManager()
   

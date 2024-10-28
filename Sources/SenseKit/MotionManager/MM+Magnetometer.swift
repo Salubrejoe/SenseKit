@@ -2,9 +2,9 @@
 import Foundation
 
 
-extension MotionManager {
+public extension MotionManager {
   
-  public func startMagnetometer() throws {
+  func startMagnetometer() throws {
     guard motion.isMagnetometerAvailable else {
       throw MotionManagerError.magnetometerUnavailable
     }

@@ -4,7 +4,7 @@ import SwiftUI
 import MapKit
 
 
-struct DeviceLocation {
+public struct DeviceLocation {
   
   var coordinates   : DeviceCoordinates
   var altitude      : GPSAltitude
