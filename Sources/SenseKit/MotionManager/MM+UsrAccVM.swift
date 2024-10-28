@@ -11,7 +11,7 @@ public extension MotionManager {
   
   func axisYOffset(max maxOffset: CGFloat) -> CGFloat {
     guard let y = userAcceleration?.y else { return 0 }
-    return maxOffset * y.value
+    return -1 * maxOffset * y.value
   }
   
   func axisZScale(multiplier: CGFloat) -> CGFloat {
