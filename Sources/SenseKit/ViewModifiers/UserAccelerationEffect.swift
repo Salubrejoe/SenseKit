@@ -4,7 +4,7 @@ import SwiftUI
 
 extension View {
   
-  func userAccelerationEffect(maxOffset: CGFloat = 20, scaleMultiplier: CGFloat = 0.1, animation: Animation = .bouncy) -> some View {
+  public func userAccelerationEffect(maxOffset: CGFloat = 20, scaleMultiplier: CGFloat = 0.1, animation: Animation = .bouncy) -> some View {
     modifier(UserAccelerationEffect(maxOffset: maxOffset, scaleMultiplier: scaleMultiplier, animation: animation))
   }
 }
