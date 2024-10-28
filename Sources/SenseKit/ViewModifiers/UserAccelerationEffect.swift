@@ -10,7 +10,7 @@ extension View {
 }
 
 
-struct UserAccelerationEffect: ViewModifier {
+public struct UserAccelerationEffect: ViewModifier {
   
   @Environment(MotionManager.self) var stream: MotionManager?
   
@@ -18,7 +18,7 @@ struct UserAccelerationEffect: ViewModifier {
   let scaleMultiplier: CGFloat
   let animation: Animation
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     
     if let stream {
       
