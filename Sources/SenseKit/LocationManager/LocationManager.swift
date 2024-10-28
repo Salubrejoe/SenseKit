@@ -33,7 +33,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "Pretty please?")
   }
   
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+  public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let currentLocation = locations.last else {
       return }
     self.location = DeviceLocation(fromCL: currentLocation)

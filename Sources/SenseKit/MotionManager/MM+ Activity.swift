@@ -24,7 +24,7 @@ public extension MotionManager {
     }
   }
   
-  public func startActivityUpdates() throws {
+  func startActivityUpdates() throws {
     guard CMMotionActivityManager.isActivityAvailable() else {
       throw MotionManagerError.activityManagerUnavailable
     }

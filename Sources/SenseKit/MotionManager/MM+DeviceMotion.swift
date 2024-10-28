@@ -21,7 +21,7 @@ public extension MotionManager {
     }
   }
   
-  public func startHeadphonesDeviceMotion() throws {
+  func startHeadphonesDeviceMotion() throws {
     guard headphoneMotion.isDeviceMotionAvailable else {
       throw MotionManagerError.headphoneMotionUnavailable
     }
