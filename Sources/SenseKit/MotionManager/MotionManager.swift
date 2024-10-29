@@ -21,7 +21,6 @@ public class MotionManager {
   
   init() {
     do {
-      try startMagnetometer()
       try startDeviceMotion()
     } catch {
       handleError(MotionManagerError.unknownError(error))
