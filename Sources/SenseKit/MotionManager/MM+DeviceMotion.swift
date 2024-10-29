@@ -31,6 +31,7 @@ public extension MotionManager {
     let x = Measurement<UnitMagneticField>(value: field.x.magnitude, unit: .microteslas)
     let y = Measurement<UnitMagneticField>(value: field.y.magnitude, unit: .microteslas)
     let z = Measurement<UnitMagneticField>(value: field.z.magnitude, unit: .microteslas)
+    print("x: \(x.value), y: \(y.value), z: \(z.value)")
     let magnetometer = Vector(x: x, y: y, z: z)
     self.magnetometer = magnetometer
   }
