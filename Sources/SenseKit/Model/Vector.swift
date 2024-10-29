@@ -26,12 +26,12 @@ public struct Vector<UnitType: Dimension>: Equatable {
     self = .zero
   }
   
-  func magnitude() -> Measurement<UnitType> {
+  public func magnitude() -> Measurement<UnitType> {
     let magnitudeValue = sqrt(pow(x.value, 2) + pow(y.value, 2) + pow(z.value, 2))
     return Measurement(value: magnitudeValue, unit: x.unit)
   }
   
-  func adding(_ other: Vector<UnitType>) -> Vector<UnitType> {
+  public func adding(_ other: Vector<UnitType>) -> Vector<UnitType> {
     return Vector(
       x: x + other.x,
       y: y + other.y,
@@ -39,7 +39,7 @@ public struct Vector<UnitType: Dimension>: Equatable {
     )
   }
   
-  func subtracting(_ other: Vector<UnitType>) -> Vector<UnitType> {
+  public func subtracting(_ other: Vector<UnitType>) -> Vector<UnitType> {
     return Vector(
       x: x - other.x,
       y: y - other.y,
@@ -47,7 +47,7 @@ public struct Vector<UnitType: Dimension>: Equatable {
     )
   }
   
-  func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
+  public func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
     formatter.maximumSignificantDigits = significantDigits
