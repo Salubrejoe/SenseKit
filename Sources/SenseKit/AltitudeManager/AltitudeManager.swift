@@ -1,23 +1,53 @@
 
 import CoreMotion
 
-
-public extension MotionManager {
+@Observable
+public class AltitudeManager {
+  public static let stream = AltitudeManager()
   
+  public let altimeter = CMAltimeter()
+  
+  public var absoluteAltitude  : Measurement<UnitLength>?
+  public var absoluteAccuracy  : Measurement<UnitLength>?
+  public var absolutePrecision : Measurement<UnitLength>?
+  public var relativeAltitude  : Measurement<UnitLength>?
+  public var pressure          : Measurement<UnitPressure>?
+  
+  init() {
+    do {
+      try startAltimeter()
+    } catch {
+      handleError(AltitudeManagerError.unknownError(error))
+    }
+  }
+  
+  deinit {
+    altimeter.stopAbsoluteAltitudeUpdates()
+    altimeter.stopRelativeAltitudeUpdates()
+  }
+  
+
+}
+
+public extension AltitudeManager {
   func startAltimeter() throws {
     guard CMAltimeter.isRelativeAltitudeAvailable() else {
-      throw MotionManagerError.altimeterUnavailable
+      throw AltitudeManagerError.relativeAltitudeNotAvailable
+    }
+    
+    guard CMAltimeter.isAbsoluteAltitudeAvailable() else {
+      throw AltitudeManagerError.absoluteAltitudeNotAvailable
     }
     
     altimeter
       .startRelativeAltitudeUpdates(
-        to: queue,
+        to: .init(),
         withHandler: updateRelativeAltitudeAndPressure
       )
     
     altimeter
       .startAbsoluteAltitudeUpdates(
-        to: queue,
+        to: .init(),
         withHandler: updateAbsolutAltitude
       )
     
@@ -44,4 +74,14 @@ public extension MotionManager {
       self?.absolutePrecision = Measurement(value: precision, unit: .meters)
     }
   }
+  
+  func handleError(_ error: Error) {
+    print("ActivityError occurred: \(error)")
+  }
+}
+
+public enum AltitudeManagerError: Error {
+  case relativeAltitudeNotAvailable
+  case absoluteAltitudeNotAvailable
+  case unknownError(Error)
 }

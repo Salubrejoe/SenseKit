@@ -12,7 +12,7 @@ public extension MotionManager {
     self.motion.magnetometerUpdateInterval = updateInterval
     self.motion.showsDeviceMovementDisplay = true
     
-    self.motion.startMagnetometerUpdates(to: self.queue) { data, error in
+    self.motion.startMagnetometerUpdates(to: .init()) { data, error in
       
       guard let data else { return }
       DispatchQueue.main.async { [weak self] in
