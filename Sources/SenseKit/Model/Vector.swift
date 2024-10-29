@@ -46,4 +46,21 @@ public struct Vector<UnitType: Dimension>: Equatable {
       z: z - other.z
     )
   }
+  
+  func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.maximumSignificantDigits = significantDigits
+    
+    func formattedValue(_ measurement: Measurement<UnitType>) -> String {
+      let valueString = formatter.string(from: NSNumber(value: measurement.value)) ?? "\(measurement.value))"
+      return includeUnit ? "\(valueString) \(measurement.unit.symbol)" : valueString
+    }
+    
+    let xString = formattedValue(x)
+    let yString = formattedValue(y)
+    let zString = formattedValue(z)
+    
+    return (xString, yString, zString)
+  }
 }

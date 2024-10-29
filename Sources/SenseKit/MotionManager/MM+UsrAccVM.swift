@@ -19,3 +19,21 @@ public extension MotionManager {
     return 1 + (z.value * multiplier)
   }
 }
+
+public extension MotionManager {
+  
+  func magnAxisXOffset(max maxOffset: CGFloat) -> CGFloat {
+    guard let x = magnetometer?.x else { return 0 }
+    return maxOffset * x.value
+  }
+  
+  func magnAxisYOffset(max maxOffset: CGFloat) -> CGFloat {
+    guard let y = magnetometer?.y else { return 0 }
+    return -1 * maxOffset * y.value
+  }
+  
+  func magnAxisZScale(multiplier: CGFloat) -> CGFloat {
+    guard let z = magnetometer?.z else { return 0 }
+    return 1 + (z.value * multiplier)
+  }
+}
