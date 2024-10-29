@@ -28,10 +28,9 @@ public extension MotionManager {
     self.userAcceleration = DeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
     self.heading          = DeviceMotionCalculator.shared.calculateHeading(from: motionData)
     let field = motionData.magneticField.field
-    let x = Measurement<UnitMagneticField>(value: field.x.magnitude, unit: .microteslas)
-    let y = Measurement<UnitMagneticField>(value: field.y.magnitude, unit: .microteslas)
-    let z = Measurement<UnitMagneticField>(value: field.z.magnitude, unit: .microteslas)
-    print("x: \(x.value), y: \(y.value), z: \(z.value)")
+    let x = Measurement<UnitMagneticField>(value: field.x, unit: .microteslas)
+    let y = Measurement<UnitMagneticField>(value: field.y, unit: .microteslas)
+    let z = Measurement<UnitMagneticField>(value: field.z, unit: .microteslas)
     let magnetometer = Vector(x: x, y: y, z: z)
     self.magnetometer = magnetometer
   }
