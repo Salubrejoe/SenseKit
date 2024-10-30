@@ -25,8 +25,6 @@ public class AltitudeManager {
     altimeter.stopAbsoluteAltitudeUpdates()
     altimeter.stopRelativeAltitudeUpdates()
   }
-  
-
 }
 
 public extension AltitudeManager {
