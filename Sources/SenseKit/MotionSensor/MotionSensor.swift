@@ -11,8 +11,8 @@ public class MotionSensor {
   public var attitude         : Vector<UnitAngle> = .zero
   public var gravity          : Vector<UnitAcceleration> = .zero
   public var userAcceleration : Vector<UnitAcceleration> = .zero
-//  public var rotationRate     : Vector<UnitAngularVelocity> = .zero
-//  public var magnetometer     : Vector<UnitMagneticField> = .zero
+  public var rotationRate     : Vector<UnitAngularVelocity> = .zero
+  public var magnetometer     : Vector<UnitMagneticField> = .zero
   public var heading          : Measurement<UnitAngle> = .init(value: 0, unit: .degrees)
   
   
