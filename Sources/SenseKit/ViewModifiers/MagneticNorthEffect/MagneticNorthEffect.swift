@@ -3,8 +3,8 @@ import SwiftUI
 
 
 public extension View {
-  func magneticNorthEffect(maxOffset: CGFloat = 20, animation: Animation = .bouncy) -> some View {
-    modifier(MagneticNorthEffect(maxOffset: maxOffset, animation: animation))
+  func magneticNorthEffect(animation: Animation = .bouncy) -> some View {
+    modifier(MagneticNorthEffect(animation: animation))
   }
 }
 
@@ -12,7 +12,6 @@ public struct MagneticNorthEffect: ViewModifier {
   
   @Environment(MotionSensor.self) var stream: MotionSensor?
   
-//  public let maxOffset: CGFloat
   public let animation: Animation
   
   public func body(content: Content) -> some View {
@@ -23,10 +22,6 @@ public struct MagneticNorthEffect: ViewModifier {
           angleToNorth(),
           axis: (x: normalizedMagneticVector.y, y: -normalizedMagneticVector.x, z: 0)
         )
-//        .offset(
-//          x: axisXOffset(max: maxOffset),
-//          y: axisYOffset(max: maxOffset)
-//        )
         .animation(
           animation,
           value: magnetometer
