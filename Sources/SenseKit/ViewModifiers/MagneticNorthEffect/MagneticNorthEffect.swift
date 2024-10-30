@@ -12,17 +12,21 @@ public struct MagneticNorthEffect: ViewModifier {
   
   @Environment(MotionSensor.self) var stream: MotionSensor?
   
-  public let maxOffset: CGFloat
+//  public let maxOffset: CGFloat
   public let animation: Animation
   
   public func body(content: Content) -> some View {
     
     if let stream {
       content
-        .offset(
-          x: axisXOffset(max: maxOffset),
-          y: axisYOffset(max: maxOffset)
+        .rotation3DEffect(
+          angleToNorth(),
+          axis: (x: normalizedMagneticVector.y, y: -normalizedMagneticVector.x, z: 0)
         )
+//        .offset(
+//          x: axisXOffset(max: maxOffset),
+//          y: axisYOffset(max: maxOffset)
+//        )
         .animation(
           animation,
           value: magnetometer
@@ -58,5 +62,11 @@ public struct MagneticNorthEffect: ViewModifier {
   
   public func axisYOffset(max maxOffset: CGFloat) -> CGFloat {
     -1 * maxOffset * normalizedMagneticVector.y
+  }
+  
+  public func angleToNorth(_ multiplier: CGFloat = 1) -> Angle {
+    // Calculate the angle in radians and apply the multiplier
+    let angle = atan2(normalizedMagneticVector.y, normalizedMagneticVector.x)
+    return Angle(radians: Double(angle) * Double(multiplier))
   }
 }
