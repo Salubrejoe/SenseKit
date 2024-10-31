@@ -26,9 +26,8 @@ public struct Vector<UnitType: Dimension>: Equatable {
     self = .zero
   }
   
-  public func magnitude(significantDigits: Int = 2) -> Measurement<UnitType> {
-    let usableSignificantDigits = significantDigits > 0 ? significantDigits : 0
-    let magnitudeValue = sqrt(pow(x.value, 2) + pow(y.value, 2) + pow(z.value, 2)).roundTo(places: usableSignificantDigits)
+  public func magnitude() -> Measurement<UnitType> {
+    let magnitudeValue = sqrt(pow(x.value, 2) + pow(y.value, 2) + pow(z.value, 2))
     return Measurement(value: magnitudeValue, unit: x.unit)
   }
   
@@ -87,7 +86,7 @@ public struct Vector<UnitType: Dimension>: Equatable {
     }
     
     if includeUnit {
-      return "\(returnValue.description) \(magnitudeUnit.description)"
+      return "\(returnValue.description) \(magnitude.unit.symbol)"
     }
     else {
       return returnValue.description
