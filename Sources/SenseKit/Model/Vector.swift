@@ -48,13 +48,17 @@ public struct Vector<UnitType: Dimension>: Equatable {
   }
   
   public func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
+    
+    let usableSignificantDigits = significantDigits > 0 ? significantDigits : 0
+    
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
-    formatter.maximumFractionDigits = significantDigits
-    formatter.minimumFractionDigits = significantDigits
+    formatter.maximumFractionDigits = usableSignificantDigits
+    formatter.minimumFractionDigits = usableSignificantDigits
     
     func formattedValue(_ measurement: Measurement<UnitType>) -> String {
-      let valueString = formatter.string(from: NSNumber(value: measurement.value)) ?? "\(measurement.value))"
+      let value = abs(measurement.value)
+      let valueString = formatter.string(from: NSNumber(value: value)) ?? "\(value))"
       return includeUnit ? "\(valueString) \(measurement.unit.symbol)" : valueString
     }
     
@@ -63,5 +67,27 @@ public struct Vector<UnitType: Dimension>: Equatable {
     let zString = formattedValue(z)
     
     return (xString, yString, zString)
+  }
+  
+  public func formattedMagnitude(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
+    
+    let magnitude = self.magnitude()
+    let magnitudeValue = magnitude.value
+    let magnitudeUnit  = magnitude.unit
+    
+    var returnValue = 0.0
+    
+    if significantDigits > 0 {
+      returnValue = magnitudeValue.roundTo(places: significantDigits)
+    } else {
+      returnValue = magnitudeValue.rounded()
+    }
+    
+    if includeUnit {
+      return "\(returnValue.description) \(magnitudeUnit.description)"
+    }
+    else {
+      return returnValue.description
+    }
   }
 }

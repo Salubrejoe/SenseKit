@@ -127,6 +127,55 @@ public extension MotionSensor {
 }
 
 
+
+// MARK: - PROPERTIES
+extension MotionSensor {
+  public typealias PerAxisStringDescriptor = (x: String, y: String, z: String)
+  
+  // MARK: - Computed Descriptors
+  public func attitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+    attitude.formattedComponents(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func magneticFieldDescriptor(significantDigits: Int = 0, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+    magnetometer.formattedComponents(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func gravityDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+    gravity.formattedComponents(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func userAccelerationDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+    userAcceleration.formattedComponents(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func rotationRateDescriptor(significantDigits: Int = 2, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+    rotationRate.formattedComponents(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  // MARK: - Magnitude Descriptors
+  public func attitudeMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    attitude.formattedMagnitude(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func magneticFieldMagnitudeDescriptor(significantDigits: Int = 0, includeUnit: Bool = true) -> String {
+    magnetometer.formattedMagnitude(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func gravityMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    gravity.formattedMagnitude(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func userAccelerationMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    userAcceleration.formattedMagnitude(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  public func rotationRateMagnitudeDescriptor(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
+    rotationRate.formattedMagnitude(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+}
+
+
 // MARK: - ERROR
 public enum MotionSensorError: Error {
   case motionUnavailable
