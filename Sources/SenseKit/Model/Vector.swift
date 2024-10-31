@@ -50,8 +50,8 @@ public struct Vector<UnitType: Dimension>: Equatable {
   public func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
-    formatter.minimumSignificantDigits = significantDigits
-    formatter.maximumSignificantDigits = significantDigits
+    formatter.maximumFractionDigits = significantDigits
+    formatter.minimumFractionDigits = significantDigits
     
     func formattedValue(_ measurement: Measurement<UnitType>) -> String {
       let valueString = formatter.string(from: NSNumber(value: measurement.value)) ?? "\(measurement.value))"
