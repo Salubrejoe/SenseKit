@@ -47,49 +47,17 @@ public struct Vector<UnitType: Dimension>: Equatable {
     )
   }
   
-  public func formattedComponents(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
+  public func componentsDescriptions(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
     
-    let usableSignificantDigits = significantDigits > 0 ? significantDigits : 0
-    
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.maximumFractionDigits = usableSignificantDigits
-    formatter.minimumFractionDigits = usableSignificantDigits
-    
-    func formattedValue(_ measurement: Measurement<UnitType>) -> String {
-      let value = abs(measurement.value)
-      let valueString = formatter.string(from: NSNumber(value: value)) ?? "\(value))"
-      return includeUnit ? "\(valueString) \(measurement.unit.symbol)" : valueString
-    }
-    
-    let xString = formattedValue(x)
-    let yString = formattedValue(y)
-    let zString = formattedValue(z)
+    let xString = x.description(significantDigits: significantDigits, includeUnit: includeUnit)
+    let yString = y.description(significantDigits: significantDigits, includeUnit: includeUnit)
+    let zString = z.description(significantDigits: significantDigits, includeUnit: includeUnit)
     
     return (xString, yString, zString)
   }
   
-  public func formattedMagnitude(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
-    
-    let usableSignificantDigits = significantDigits > 0 ? significantDigits : 0
-    
-    let magnitude = self.magnitude()
-    let magnitudeValue = magnitude.value
-    let magnitudeUnit  = magnitude.unit
-    
-    var returnValue = 0.0
-    
-    if significantDigits > 0 {
-      returnValue = magnitudeValue.roundTo(places: usableSignificantDigits)
-    } else {
-      returnValue = magnitudeValue.rounded()
-    }
-    
-    if includeUnit {
-      return "\(returnValue.description) \(magnitude.unit.symbol)"
-    }
-    else {
-      return returnValue.description
-    }
+  public func magnitudeDescription(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
+    magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
   }
 }
+
