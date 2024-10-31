@@ -6,14 +6,14 @@ import MapKit
 
 public struct DeviceLocation {
   
-  var coordinates   : DeviceCoordinates
-  var altitude      : GPSAltitude
-  var floor         : Int?
-  var speed         : Measurement<UnitSpeed>
-  var speedAccuracy : Measurement<UnitSpeed>
-  var timestamp     : Date
+  public var timestamp     : Date
+  public var coordinates   : DeviceCoordinates
+  public var altitude      : GPSAltitude
+  public var floor         : Int?
+  public var speed         : Measurement<UnitSpeed>
+  public var speedAccuracy : Measurement<UnitSpeed>
   
-  init() {
+  public init() {
     self.timestamp     = .now
     self.coordinates   = .zero
     self.altitude      = .zero
@@ -22,7 +22,7 @@ public struct DeviceLocation {
     self.speedAccuracy = .init(value: 0, unit: .metersPerSecond)
   }
   
-  init(fromCL location: CLLocation) {
+ public  init(fromCL location: CLLocation) {
     
     let coordinates = DeviceCoordinates(
       longitude: location.coordinate.longitude,
@@ -46,30 +46,30 @@ public struct DeviceLocation {
 }
 
 
-struct DeviceCoordinates {
-  static let zero: DeviceCoordinates = .init()
+public struct DeviceCoordinates {
+  static public let zero: DeviceCoordinates = .init()
   
-  var longitude         : Double = 0
-  var latitude          : Double = 0
-  var uncertaintyRadius : Double = 0
+  public var longitude         : Double = 0
+  public var latitude          : Double = 0
+  public var uncertaintyRadius : Double = 0
   
-  var coordinates2D: CLLocationCoordinate2D {
+  public var coordinates2D: CLLocationCoordinate2D {
     .init(latitude: latitude, longitude: longitude)
   }
   
-  var span: MKCoordinateSpan {
+  public var span: MKCoordinateSpan {
     .init(latitudeDelta: .greatestFiniteMagnitude, longitudeDelta: .greatestFiniteMagnitude)
   }
   
-  var mkRegion: MKCoordinateRegion {
+  public var mkRegion: MKCoordinateRegion {
     .init(center: coordinates2D, span: span)
   }
 }
 
-struct GPSAltitude {
-  static let zero: GPSAltitude = .init()
+public struct GPSAltitude {
+  static public let zero: GPSAltitude = .init()
   
-  var altitude            : Double = .zero
-  var ellipsoidalAltitude : Double = .zero
-  var verticalUncertainty : Double = .zero
+  public var altitude            : Double = .zero
+  public var ellipsoidalAltitude : Double = .zero
+  public var verticalUncertainty : Double = .zero
 }

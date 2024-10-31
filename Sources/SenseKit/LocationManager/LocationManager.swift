@@ -8,11 +8,11 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
   
   public let locationManager = CLLocationManager()
   
-  public var location: DeviceLocation?
+  public var location : DeviceLocation?
+  public var heading  : Measurement<UnitAngle> = .init(value: 0, unit: .degrees)
   
-  override init() {
+  override public init() {
     super.init()
-    
     startLocationAndHeading()
   }
   
@@ -22,12 +22,12 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     locationManager.startUpdatingHeading()
   }
   
-  private func setupLocationManager() {
+  public func setupLocationManager() {
     locationManager.delegate = self
     requestAuthorizations()
   }
   
-  private func requestAuthorizations() {
+  public func requestAuthorizations() {
     locationManager.requestAlwaysAuthorization()
     locationManager.requestWhenInUseAuthorization()
     locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "Pretty please?")
@@ -37,5 +37,9 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     guard let currentLocation = locations.last else {
       return }
     self.location = DeviceLocation(fromCL: currentLocation)
+  }
+  
+  public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    self.heading = Measurement(value: newHeading.magneticHeading, unit: UnitAngle.degrees)
   }
 }

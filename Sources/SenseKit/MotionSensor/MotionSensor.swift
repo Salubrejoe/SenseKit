@@ -11,9 +11,9 @@ public class MotionSensor {
   public var attitude         : Vector<UnitAngle> = .zero
   public var gravity          : Vector<UnitAcceleration> = .zero
   public var userAcceleration : Vector<UnitAcceleration> = .zero
-  public var rotationRate     : Vector<UnitAngularVelocity> = .zero
   public var magnetometer     : Vector<UnitMagneticField> = .zero
-  public var heading          : Measurement<UnitAngle> = .init(value: 0, unit: .degrees)
+  public var rotationRate     : Vector<UnitAngularVelocity> = .zero
+//  public var heading          : Measurement<UnitAngle> = .init(value: 0, unit: .degrees)
   
   
   init(updateInterval: TimeInterval = 0.1) {
@@ -35,7 +35,7 @@ public class MotionSensor {
   }
   
   public func setOnUpdateHandler(_ handler: @escaping () -> Void) {
-    motion.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { deviceMotion, error in
+    motion.startDeviceMotionUpdates(to: .current!, withHandler: { deviceMotion, error in
       handler()
     })
   }
@@ -95,7 +95,7 @@ public extension MotionSensor {
     self.rotationRate     = DeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
     self.gravity          = DeviceMotionCalculator.shared.calculateGravity(from: motionData)
     self.userAcceleration = DeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
-    self.heading          = DeviceMotionCalculator.shared.calculateHeading(from: motionData)
+//    self.heading          = DeviceMotionCalculator.shared.calculateHeading(from: motionData)
 //    self.magnetometer     = DeviceMotionCalculator.shared.calculateMagneticFIeld(from: motionData)
   }
 }
