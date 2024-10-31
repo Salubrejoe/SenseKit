@@ -40,6 +40,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
   }
   
   public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-    self.heading = Measurement(value: newHeading.magneticHeading, unit: UnitAngle.degrees)
+    self.heading = Measurement(value: newHeading.magneticHeading.rounded(), unit: UnitAngle.degrees)
   }
 }

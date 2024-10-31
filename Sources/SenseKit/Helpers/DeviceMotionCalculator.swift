@@ -8,9 +8,9 @@ public class DeviceMotionCalculator {
   
   public func calculateAttitude(from motionData: CMDeviceMotion) -> Vector<UnitAngle> {
     let attitude = motionData.attitude
-    let pitch = Measurement<UnitAngle>(value: attitude.pitch.roundTo(places: 2), unit: .radians)
-    let roll  = Measurement<UnitAngle>(value: attitude.roll.roundTo(places: 2), unit: .radians)
-    let yaw   = Measurement<UnitAngle>(value: attitude.yaw.roundTo(places: 2), unit: .radians)
+    let pitch = Measurement<UnitAngle>(value: attitude.pitch.roundTo(places: 3), unit: .radians)
+    let roll  = Measurement<UnitAngle>(value: attitude.roll.roundTo(places: 3), unit: .radians)
+    let yaw   = Measurement<UnitAngle>(value: attitude.yaw.roundTo(places: 3), unit: .radians)
     return Vector(x: pitch, y: roll, z: yaw)
   }
   
@@ -24,23 +24,23 @@ public class DeviceMotionCalculator {
   
   public func calculateGravity(from motionData: CMDeviceMotion) -> Vector<UnitAcceleration> {
     let gravity  = motionData.gravity
-    let gravityX = Measurement<UnitAcceleration>(value: gravity.x.roundTo(places: 2), unit: .gravity)
-    let gravityY = Measurement<UnitAcceleration>(value: gravity.y.roundTo(places: 2), unit: .gravity)
-    let gravityZ = Measurement<UnitAcceleration>(value: gravity.z.roundTo(places: 2), unit: .gravity)
+    let gravityX = Measurement<UnitAcceleration>(value: gravity.x.roundTo(places: 1), unit: .gravity)
+    let gravityY = Measurement<UnitAcceleration>(value: gravity.y.roundTo(places: 1), unit: .gravity)
+    let gravityZ = Measurement<UnitAcceleration>(value: gravity.z.roundTo(places: 1), unit: .gravity)
     return Vector(x: gravityX, y: gravityY, z: gravityZ)
   }
   
   public func calculateUserAcceleration(from motionData: CMDeviceMotion) -> Vector<UnitAcceleration> {
     let userAcceleration = motionData.userAcceleration
-    let userAccelerationX = Measurement<UnitAcceleration>(value: userAcceleration.x.roundTo(places: 2), unit: .gravity)
-    let userAccelerationY = Measurement<UnitAcceleration>(value: userAcceleration.y.roundTo(places: 2), unit: .gravity)
-    let userAccelerationZ = Measurement<UnitAcceleration>(value: userAcceleration.z.roundTo(places: 2), unit: .gravity)
+    let userAccelerationX = Measurement<UnitAcceleration>(value: userAcceleration.x.roundTo(places: 1), unit: .gravity)
+    let userAccelerationY = Measurement<UnitAcceleration>(value: userAcceleration.y.roundTo(places: 1), unit: .gravity)
+    let userAccelerationZ = Measurement<UnitAcceleration>(value: userAcceleration.z.roundTo(places: 1), unit: .gravity)
     return Vector(x: userAccelerationX, y: userAccelerationY, z: userAccelerationZ)
   }
-  
-  public func calculateHeading(from motionData: CMDeviceMotion) -> Measurement<UnitAngle> {
-    Measurement<UnitAngle>(value: motionData.heading.roundTo(places: 2), unit: .degrees)
-  }
+//  
+//  public func calculateHeading(from motionData: CMDeviceMotion) -> Measurement<UnitAngle> {
+//    Measurement<UnitAngle>(value: motionData.heading.roundTo(places: 2), unit: .degrees)
+//  }
   
   public func calculateMagneticFIeld(from motionData: CMDeviceMotion) -> Vector<UnitMagneticField> {
     let field = motionData.magneticField.field

@@ -25,15 +25,15 @@ public struct DeviceLocation {
  public  init(fromCL location: CLLocation) {
     
     let coordinates = DeviceCoordinates(
-      longitude: location.coordinate.longitude,
-      latitude: location.coordinate.latitude,
-      uncertaintyRadius: location.horizontalAccuracy
+      longitude : Measurement(value: location.coordinate.longitude.roundTo(places: 2), unit: .degrees),
+      latitude  : Measurement(value: location.coordinate.latitude.roundTo(places: 2),  unit: .degrees),
+      uncertaintyRadius: Measurement(value: location.horizontalAccuracy.rounded(), unit: .meters)
     )
     
     let altitude = GPSAltitude(
-      altitude: location.altitude,
-      ellipsoidalAltitude: location.ellipsoidalAltitude,
-      verticalUncertainty: location.verticalAccuracy
+      altitude: Measurement(value: location.altitude.rounded(), unit: .meters),
+      ellipsoidalAltitude: Measurement(value: location.ellipsoidalAltitude.rounded(), unit: .meters),
+      verticalUncertainty: Measurement(value: location.verticalAccuracy.rounded(), unit: .meters)
     )
     
     self.coordinates = coordinates
@@ -49,12 +49,12 @@ public struct DeviceLocation {
 public struct DeviceCoordinates {
   static public let zero: DeviceCoordinates = .init()
   
-  public var longitude         : Double = 0
-  public var latitude          : Double = 0
-  public var uncertaintyRadius : Double = 0
+  public var longitude         : Measurement<UnitAngle>  = .init(value: 0.0, unit: .degrees)
+  public var latitude          : Measurement<UnitAngle>  = .init(value: 0.0, unit: .degrees)
+  public var uncertaintyRadius : Measurement<UnitLength> = .init(value: 0.0, unit: .meters)
   
   public var coordinates2D: CLLocationCoordinate2D {
-    .init(latitude: latitude, longitude: longitude)
+    .init(latitude: latitude.value, longitude: longitude.value)
   }
   
   public var span: MKCoordinateSpan {
@@ -69,7 +69,7 @@ public struct DeviceCoordinates {
 public struct GPSAltitude {
   static public let zero: GPSAltitude = .init()
   
-  public var altitude            : Double = .zero
-  public var ellipsoidalAltitude : Double = .zero
-  public var verticalUncertainty : Double = .zero
+  public var altitude            : Measurement<UnitLength> = .init(value: 0.0, unit: .meters)
+  public var ellipsoidalAltitude : Measurement<UnitLength> = .init(value: 0.0, unit: .meters)
+  public var verticalUncertainty : Measurement<UnitLength> = .init(value: 0.0, unit: .meters)
 }
