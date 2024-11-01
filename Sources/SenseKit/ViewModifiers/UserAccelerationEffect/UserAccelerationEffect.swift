@@ -28,7 +28,7 @@ public struct UserAccelerationEffect: ViewModifier {
       
       content
         .offset(size)
-        .animation( animation, value: stream.userAcceleration)
+        .animation(animation, value: stream.userAcceleration)
       
     } else {
       content

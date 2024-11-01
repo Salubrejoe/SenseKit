@@ -3,6 +3,10 @@ import Foundation
 
 
 public class Vector<UnitType: Dimension>: Equatable {
+  public static func == (lhs: Vector<UnitType>, rhs: Vector<UnitType>) -> Bool {
+    lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
+  }
+  
   public typealias Components  = (x: Double, y: Double, z: Double)
   public typealias Descriptors = (x: String, y: String, z: String)
   
@@ -29,7 +33,10 @@ public class Vector<UnitType: Dimension>: Equatable {
   
   
   public init() {
-    self = .zero
+    let zero = Vector.zero
+    self.x = zero.x
+    self.y = zero.y
+    self.z = zero.z
   }
   
   public func magnitude() -> Measurement<UnitType> {
