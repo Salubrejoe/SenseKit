@@ -45,6 +45,10 @@ public struct AttitudeView: View {
 // The main VectorView which contains a SceneKit scene with 3D vector rendering
 public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   
+  public init(vector: Vector<UnitType>) {
+    self.vector = vector
+  }
+  
 //  @Binding var animate: Bool
   
   // The vector to be displayed
