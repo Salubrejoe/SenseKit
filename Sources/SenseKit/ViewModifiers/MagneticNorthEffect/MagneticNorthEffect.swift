@@ -33,6 +33,6 @@ public struct MagneticNorthEffect: ViewModifier {
   }
   
   private var rawHeading: Double {
-    stream?.heading.value ?? 0.0
+    stream?.heading.magneticHeading.value ?? 0.0
   }
 }
