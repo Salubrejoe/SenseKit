@@ -19,7 +19,7 @@ public struct LocationTestForm: View {
 
 
 // MARK: - Sections
-extension LocationTestForm {
+public extension LocationTestForm {
   private var coordinatesSection: some View {
     Section("Coordinates") {
       if let coordinates = location.snapshot?.coordinates {
