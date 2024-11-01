@@ -3,6 +3,9 @@ import SwiftUI
 
 
 public struct SensorsTestTabView: View {
+  
+  public init() {}
+  
   public var body: some View {
     TabView {
       MotionSensorTestForm()
