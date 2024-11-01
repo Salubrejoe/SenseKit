@@ -17,11 +17,10 @@ public struct ActivityTestForm: View {
     Section("Current Activity") {
       if let activity = activityManager.currentActivity {
         HStack(alignment: .firstTextBaseline) {
-          Text("Activity Type:")
           Image(systemName: activity.activity.symbol)
           Text(activity.activity.description)
         }
-        Text("Start Date: \(activity.startDate.formatted(date: .abbreviated, time: .shortened))")
+        Text("From: \(activity.startDate.formatted(date: .omitted, time: .shortened))")
         Text("Confidence: \(confidenceDescription(for: activity.confidence))")
       } else {
         Text("No activity data available")

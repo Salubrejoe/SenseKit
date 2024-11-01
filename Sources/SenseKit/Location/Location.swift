@@ -27,6 +27,7 @@ public class Location: NSObject, CLLocationManagerDelegate {
   
   public func setupLocationManager() {
     manager.delegate = self
+    manager.activityType = .fitness
     requestAuthorizations()
   }
   

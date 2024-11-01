@@ -48,8 +48,8 @@ public extension LocationTestForm {
   private var speedSection: some View {
     Section("Speed") {
       if let snapshot = location.snapshot {
-        Text("Speed: \(snapshot.speed.description(significantDigits: 0))")
-        Text("Speed Accuracy: \(snapshot.speedAccuracy.description(significantDigits: 1))")
+        Text("\(snapshot.speed.description(significantDigits: 0))")
+        Text("Accuracy: \(snapshot.speedAccuracy.description(significantDigits: 1))")
       } else {
         Text("No data available")
       }
@@ -71,13 +71,13 @@ public extension LocationTestForm {
       let heading = location.heading
       Text("True Heading: \(heading.trueHeading.description(significantDigits: 0))")
       Text("Magnetic Heading: \(heading.magneticHeading.description(significantDigits: 0))")
-      Text("Heading Accuracy: \(heading.headingAccuracy.description(significantDigits: 2))")
+      Text("Accuracy: \(heading.headingAccuracy.description(significantDigits: 1))")
     }
   }
   
   private var activityTypeSection: some View {
-    Section("Activity Type") {
-      Text("Activity: \(activityTypeDescription())")
+    Section("Activity") {
+      Text("\(activityTypeDescription())")
     }
   }
   
