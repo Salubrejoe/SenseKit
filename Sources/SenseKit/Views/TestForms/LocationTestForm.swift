@@ -13,6 +13,7 @@ public struct LocationTestForm: View {
       speedSection
       floorSection
       headingSection
+      activityTypeSection
     }
   }
 }
@@ -23,9 +24,9 @@ public extension LocationTestForm {
   private var coordinatesSection: some View {
     Section("Coordinates") {
       if let coordinates = location.snapshot?.coordinates {
-        Text("Latitude: \(coordinates.latitude.description(significantDigits: 3))")
-        Text("Longitude: \(coordinates.longitude.description(significantDigits: 3))")
-        Text("Uncertainty Radius: \(coordinates.uncertaintyRadius.description(significantDigits: 4))")
+        Text("Latitude: \(coordinates.latitude.description(significantDigits: 2))")
+        Text("Longitude: \(coordinates.longitude.description(significantDigits: 2))")
+        Text("Uncertainty Radius: \(coordinates.uncertaintyRadius.description(significantDigits: 0))")
       } else {
         Text("No data available")
       }
@@ -73,4 +74,24 @@ public extension LocationTestForm {
       Text("Heading Accuracy: \(heading.headingAccuracy.description(significantDigits: 2))")
     }
   }
+  
+  private var activityTypeSection: some View {
+    Section("Activity Type") {
+      Text("Activity: \(activityTypeDescription())")
+    }
+  }
+  
+  /// Helper function to get a readable activity type description.
+  private func activityTypeDescription() -> String {
+    switch location.activityType {
+    case .automotiveNavigation: return "Automotive Navigation"
+    case .fitness: return "Fitness"
+    case .other: return "Other"
+    case .otherNavigation: return "Other Navigation"
+    case .airborne: return "Airborne"
+    @unknown default: return "Unknown"
+    }
+  }
 }
+  
+  
