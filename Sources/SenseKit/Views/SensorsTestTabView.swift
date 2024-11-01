@@ -1,18 +1,29 @@
-//
-//  SwiftUIView.swift
-//  SenseKit
-//
-//  Created by Lore P on 1/11/24.
-//
 
 import SwiftUI
 
-struct SwiftUIView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-#Preview {
-    SwiftUIView()
+public struct SensorsTestTabView: View {
+  public var body: some View {
+    TabView {
+      MotionSensorTestForm()
+        .tabItem {
+          Label("Motion Sensor", systemImage: "gyroscope")
+        }
+      
+      AltitudeTestForm()
+        .tabItem {
+          Label("Altitude", systemImage: "mountain.2.fill")
+        }
+      
+      LocationTestForm()
+        .tabItem {
+          Label("Location", systemImage: "location.circle")
+        }
+      
+      ActivityTestForm()
+        .tabItem {
+          Label("Activity", systemImage: "figure.socialdance")
+        }
+    }
+  }
 }

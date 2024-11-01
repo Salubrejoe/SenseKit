@@ -4,10 +4,11 @@ import CoreLocation
 
 @Observable
 public class Location: NSObject, CLLocationManagerDelegate {
+  public static let stream = Location()
   
-  public let manager = CLLocationManager()
+  public let manager  = CLLocationManager()
   public var snapshot : LocationSnapshot?
-  public var heading          : Heading = .zero
+  public var heading  : Heading = .zero
   
   public var activityType: CLActivityType {
     manager.activityType

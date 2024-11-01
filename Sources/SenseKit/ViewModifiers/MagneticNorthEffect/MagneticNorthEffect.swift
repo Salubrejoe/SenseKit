@@ -10,7 +10,7 @@ public extension View {
 
 public struct MagneticNorthEffect: ViewModifier {
   
-  @Environment(LocationManager.self) var stream: LocationManager?
+  @Environment(Location.self) var stream: Location?
   
   public let animation: Animation
   

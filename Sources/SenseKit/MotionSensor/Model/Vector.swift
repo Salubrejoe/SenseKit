@@ -3,6 +3,8 @@ import Foundation
 
 
 public struct Vector<UnitType: Dimension>: Equatable {
+  public typealias Components  = (x: Double, y: Double, z: Double)
+  public typealias Descriptors = (x: String, y: String, z: String)
   
   static var zero: Vector {
     .init(x: .init(value: 0, unit: UnitType.baseUnit()),
@@ -51,12 +53,18 @@ public struct Vector<UnitType: Dimension>: Equatable {
     )
   }
   
-  public func componentsDescriptions(significantDigits: Int = 2, includeUnit: Bool = true) -> (x: String, y: String, z: String) {
+  public func components(significantDigits: Int) -> Components {
+    let xValue = x.value.roundTo(places: significantDigits)
+    let yValue = y.value.roundTo(places: significantDigits)
+    let zValue = z.value.roundTo(places: significantDigits)
+    return (xValue, yValue, zValue)
+  }
+  
+  public func componentsDescriptions(significantDigits: Int = 2, includeUnit: Bool = true) -> Descriptors {
     
     let xString = x.description(significantDigits: significantDigits, includeUnit: includeUnit)
     let yString = y.description(significantDigits: significantDigits, includeUnit: includeUnit)
     let zString = z.description(significantDigits: significantDigits, includeUnit: includeUnit)
-    
     return (xString, yString, zString)
   }
   

@@ -1,18 +1,31 @@
-
 import CoreMotion
 
+/// `AltitudeManager` is a singleton class responsible for monitoring the device's altitude data.
+/// It uses `CMAltimeter` to obtain both relative and absolute altitude information, along with pressure data.
+/// Altitude readings are available only on devices that support altimeter sensors.
 @Observable
 public class AltitudeManager {
   public static let stream = AltitudeManager()
   
+  /// `CMAltimeter` instance to track altitude changes.
   public let altimeter = CMAltimeter()
   
-  public var absoluteAltitude  : Measurement<UnitLength>?
-  public var absoluteAccuracy  : Measurement<UnitLength>?
-  public var absolutePrecision : Measurement<UnitLength>?
-  public var relativeAltitude  : Measurement<UnitLength>?
-  public var pressure          : Measurement<UnitPressure>?
+  /// The absolute altitude, if available, measured in meters.
+  public var absoluteAltitude: Measurement<UnitLength>?
   
+  /// The accuracy of the absolute altitude, measured in meters.
+  public var absoluteAccuracy: Measurement<UnitLength>?
+  
+  /// The precision of the absolute altitude, measured in meters.
+  public var absolutePrecision: Measurement<UnitLength>?
+  
+  /// The relative altitude since the start of the app session, measured in meters.
+  public var relativeAltitude: Measurement<UnitLength>?
+  
+  /// The air pressure at the current altitude, measured in kilopascals.
+  public var pressure: Measurement<UnitPressure>?
+  
+  /// Initializes the `AltitudeManager` and starts altitude monitoring if available.
   init() {
     do {
       try startAltimeter()
@@ -21,6 +34,7 @@ public class AltitudeManager {
     }
   }
   
+  /// Stops altitude updates when the instance is deinitialized.
   deinit {
     altimeter.stopAbsoluteAltitudeUpdates()
     altimeter.stopRelativeAltitudeUpdates()
@@ -28,6 +42,9 @@ public class AltitudeManager {
 }
 
 public extension AltitudeManager {
+  
+  /// Starts monitoring for both relative and absolute altitude updates.
+  /// - Throws: `AltitudeManagerError` if relative or absolute altitude is unavailable.
   func startAltimeter() throws {
     guard CMAltimeter.isRelativeAltitudeAvailable() else {
       throw AltitudeManagerError.relativeAltitudeNotAvailable
@@ -37,49 +54,53 @@ public extension AltitudeManager {
       throw AltitudeManagerError.absoluteAltitudeNotAvailable
     }
     
-    altimeter
-      .startRelativeAltitudeUpdates(
-        to: .init(),
-        withHandler: updateRelativeAltitudeAndPressure
-      )
+    altimeter.startRelativeAltitudeUpdates(
+      to: .main,
+      withHandler: updateRelativeAltitudeAndPressure
+    )
     
-    altimeter
-      .startAbsoluteAltitudeUpdates(
-        to: .init(),
-        withHandler: updateAbsolutAltitude
-      )
-    
+    altimeter.startAbsoluteAltitudeUpdates(
+      to: .main,
+      withHandler: updateAbsoluteAltitude
+    )
   }
   
+  /// Updates the `relativeAltitude` and `pressure` properties using data from `CMAltitudeData`.
   private func updateRelativeAltitudeAndPressure(with altitudeData: CMAltitudeData?, error: Error?) {
     guard let altitudeData else { return }
     DispatchQueue.main.async { [weak self] in
-      let pressure = altitudeData.pressure.doubleValue
-      let relativeAltitude = altitudeData.relativeAltitude.doubleValue
-      self?.pressure = Measurement(value: pressure, unit: .kilopascals)
-      self?.relativeAltitude = Measurement(value: relativeAltitude, unit: .meters)
+      self?.pressure = Measurement(value: altitudeData.pressure.doubleValue, unit: .kilopascals)
+      self?.relativeAltitude = Measurement(value: altitudeData.relativeAltitude.doubleValue, unit: .meters)
     }
   }
   
-  private func updateAbsolutAltitude(with altitudeData: CMAbsoluteAltitudeData?, error: Error?) {
+  /// Updates the `absoluteAltitude`, `absoluteAccuracy`, and `absolutePrecision` properties using data from `CMAbsoluteAltitudeData`.
+  private func updateAbsoluteAltitude(with altitudeData: CMAbsoluteAltitudeData?, error: Error?) {
     guard let altitudeData else { return }
     DispatchQueue.main.async { [weak self] in
-      let absoluteAltitude = altitudeData.altitude
-      let accuracy = altitudeData.accuracy
-      let precision = altitudeData.precision
-      self?.absoluteAltitude = Measurement(value: absoluteAltitude, unit: .meters)
-      self?.absoluteAccuracy = Measurement(value: accuracy, unit: .meters)
-      self?.absolutePrecision = Measurement(value: precision, unit: .meters)
+      self?.absoluteAltitude = Measurement(value: altitudeData.altitude, unit: .meters)
+      self?.absoluteAccuracy = Measurement(value: altitudeData.accuracy, unit: .meters)
+      self?.absolutePrecision = Measurement(value: altitudeData.precision, unit: .meters)
     }
   }
   
+  /// Logs errors that occur during altitude data updates.
+  /// - Parameter error: The error encountered in `AltitudeManager`.
   func handleError(_ error: Error) {
-    print("ActivityError occurred: \(error)")
+    print("AltitudeManager error occurred: \(error)")
   }
 }
 
+// MARK: - AltitudeManagerError
+
+/// Enum defining errors for `AltitudeManager`.
 public enum AltitudeManagerError: Error {
+  /// Error indicating that relative altitude monitoring is unavailable.
   case relativeAltitudeNotAvailable
+  
+  /// Error indicating that absolute altitude monitoring is unavailable.
   case absoluteAltitudeNotAvailable
+  
+  /// Error indicating an unknown error, with an associated error object.
   case unknownError(Error)
 }

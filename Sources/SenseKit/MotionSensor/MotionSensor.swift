@@ -13,7 +13,6 @@ public class MotionSensor {
   public var userAcceleration : Vector<UnitAcceleration> = .zero
   public var magnetometer     : Vector<UnitMagneticField> = .zero
   public var rotationRate     : Vector<UnitAngularVelocity> = .zero
-//  public var heading          : Measurement<UnitAngle> = .init(value: 0, unit: .degrees)
   
   
   init(updateInterval: TimeInterval = 0.1) {
@@ -126,30 +125,51 @@ public extension MotionSensor {
   }
 }
 
-
-
-// MARK: - PROPERTIES
+// MARK: - Double Properties
 extension MotionSensor {
-  public typealias PerAxisStringDescriptor = (x: String, y: String, z: String)
+  public func attitudeValue(significantDigits: Int = 1) -> Vector.Components {
+    attitude.components(significantDigits: significantDigits)
+  }
+  
+  public func rotationRateValue(significantDigits: Int = 2) -> Vector.Components {
+    rotationRate.components(significantDigits: significantDigits)
+  }
+  
+  public func magneticFieldValue(significantDigits: Int = 0) -> Vector.Components {
+    magnetometer.components(significantDigits: significantDigits)
+  }
+  
+  public func gravityValue(significantDigits: Int = 1) -> Vector.Components {
+    gravity.components(significantDigits: significantDigits)
+  }
+  
+  public func userAccelerationValue(significantDigits: Int = 1) -> Vector.Components {
+    userAcceleration.components(significantDigits: significantDigits)
+  }
+}
+
+
+// MARK: - String Properties
+extension MotionSensor {
   
   // MARK: - Computed Descriptors
-  public func attitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+  public func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
     attitude.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
-  public func magneticFieldDescriptor(significantDigits: Int = 0, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+  public func magneticFieldDescriptors(significantDigits: Int = 0, includeUnit: Bool = true) -> Vector.Descriptors {
     magnetometer.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
-  public func gravityDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+  public func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
     gravity.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
-  public func userAccelerationDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+  public func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
     userAcceleration.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
-  public func rotationRateDescriptor(significantDigits: Int = 2, includeUnit: Bool = true) -> PerAxisStringDescriptor {
+  public func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> Vector.Descriptors {
     rotationRate.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
