@@ -2,7 +2,7 @@
 import Foundation
 
 
-public struct Vector<UnitType: Dimension>: Equatable {
+public class Vector<UnitType: Dimension>: Equatable {
   public typealias Components  = (x: Double, y: Double, z: Double)
   public typealias Descriptors = (x: String, y: String, z: String)
   
@@ -66,10 +66,6 @@ public struct Vector<UnitType: Dimension>: Equatable {
     let yString = y.description(significantDigits: significantDigits, includeUnit: includeUnit)
     let zString = z.description(significantDigits: significantDigits, includeUnit: includeUnit)
     return (xString, yString, zString)
-  }
-  
-  public func magnitudeDescription(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
-    magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
   }
 }
 

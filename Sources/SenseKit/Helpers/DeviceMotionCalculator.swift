@@ -36,17 +36,19 @@ public class DeviceMotionCalculator {
     let userAccelerationZ = Measurement<UnitAcceleration>(value: userAcceleration.z, unit: .gravity)
     return Vector(x: userAccelerationX, y: userAccelerationY, z: userAccelerationZ)
   }
-//  
-//  public func calculateHeading(from motionData: CMDeviceMotion) -> Measurement<UnitAngle> {
-//    Measurement<UnitAngle>(value: motionData.heading.roundTo(places: 2), unit: .degrees)
-//  }
   
-//  public func calculateMagneticField(from motionData: CMDeviceMotion) -> Vector<UnitMagneticField> {
-//    let field = motionData.magneticField.field
-//    let x = Measurement<UnitMagneticField>(value: field.x, unit: .microteslas)
-//    let y = Measurement<UnitMagneticField>(value: field.y, unit: .microteslas)
-//    let z = Measurement<UnitMagneticField>(value: field.z, unit: .microteslas)
-//    return Vector(x: x, y: y, z: z)
-//  }
+  public func calculateHeading(from motionData: CMDeviceMotion) -> Measurement<UnitAngle> {
+    Measurement<UnitAngle>(value: motionData.heading.roundTo(places: 2), unit: .degrees)
+  }
+  
+  /*
+  public func calculateMagneticField(from motionData: CMDeviceMotion) -> Vector<UnitMagneticField> {
+    let field = motionData.magneticField.field
+    let x = Measurement<UnitMagneticField>(value: field.x, unit: .microteslas)
+    let y = Measurement<UnitMagneticField>(value: field.y, unit: .microteslas)
+    let z = Measurement<UnitMagneticField>(value: field.z, unit: .microteslas)
+    return Vector(x: x, y: y, z: z)
+  }
+  */
 }
 
