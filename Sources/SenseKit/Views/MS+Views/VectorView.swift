@@ -29,6 +29,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   
   public func makeUIView(context: Context) -> SCNView {
     let scnView = SCNView()
+    scnView.backgroundColor = .clear
     scnView.scene = makeScene()
     scnView.allowsCameraControl = true
 //    scnView.autoenablesDefaultLighting = true
@@ -67,7 +68,9 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
     // Add initial vector
     let vectorNode = makeVectorNode(vector: vector)
     scene.rootNode.addChildNode(vectorNode)
-    scene.rootNode.addChildNode(SCNNode(geometry: SCNSphere(radius: 0.2)))
+    let centerNode = SCNNode(geometry: SCNSphere(radius: 0.2))
+    centerNode.geometry?.firstMaterial?.diffuse.contents = UIColor.black
+    scene.rootNode.addChildNode(centerNode)
     
     return scene
   }
@@ -76,7 +79,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   private func makeAxisNode(axis: Axis) -> SCNNode {
     
     let axisNode = SCNNode()
-    axisNode.geometry = SCNCylinder(radius: 0.1, height: scale)
+    axisNode.geometry = SCNCylinder(radius: 0.05, height: scale)
     
     switch axis {
     case .x:
@@ -84,10 +87,10 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
       axisNode.position = SCNVector3(scale/2, 0, 0)
       axisNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
     case .y:
-      axisNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+      axisNode.geometry?.firstMaterial?.diffuse.contents = UIColor.purple
       axisNode.position = SCNVector3(0, scale/2, 0)
     case .z:
-      axisNode.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+      axisNode.geometry?.firstMaterial?.diffuse.contents = UIColor.magenta
       axisNode.position = SCNVector3(0, 0, scale/2)
       axisNode.eulerAngles = SCNVector3(Float.pi / 2, 0, 0)
     }
@@ -99,7 +102,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   private func makeVectorNode(vector: Vector<UnitType>) -> SCNNode {
     let magnitude = CGFloat(vector.magnitude().value)*scale
     
-    let vectorGeometry = SCNCylinder(radius: 0.2, height: magnitude)
+    let vectorGeometry = SCNCylinder(radius: 0.07, height: magnitude)
     vectorGeometry.firstMaterial?.diffuse.contents = UIColor.black
     let vectorNode = SCNNode(geometry: vectorGeometry)
     vectorNode.name = "vectorNode"

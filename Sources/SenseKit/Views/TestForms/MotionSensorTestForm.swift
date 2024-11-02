@@ -45,7 +45,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.magneticFieldMagnitudeDescriptor()
     ) {
       VectorView(vector: motionSensor.magnetometer)
-        .frame(height: 100)
+        .frame(height: 200)
     }
   }
   
@@ -56,7 +56,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.attitudeMagnitudeDescriptor()
     ) {
       VectorView(vector: motionSensor.attitude)
-        .frame(height: 100)
+        .frame(height: 200)
     }
   }
   
@@ -67,7 +67,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.gravityMagnitudeDescriptor()
     )  {
       VectorView(vector: motionSensor.gravity)
-        .frame(height: 100)
+        .frame(height: 200)
     }
   }
   
@@ -78,7 +78,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.userAccelerationMagnitudeDescriptor()
     )  {
       VectorView(vector: motionSensor.userAcceleration)
-        .frame(height: 100)
+        .frame(height: 200)
     }
   }
   
@@ -90,7 +90,7 @@ public extension MotionSensorTestForm {
     )
     {
       VectorView(vector: motionSensor.rotationRate)
-        .frame(height: 100)
+        .frame(height: 200)
     }
   }
 }
