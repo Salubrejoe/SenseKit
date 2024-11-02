@@ -5,38 +5,9 @@ import SceneKit
 
 public struct AttitudeView: View {
   @Environment(MotionSensor.self) var motionSensor
-  
-  var vector: Vector<UnitAcceleration> {
-    get {
-      motionSensor.gravity
-    }
-    set {
-      motionSensor.gravity = newValue
-    }
-  }
-  
-  
-  @State private var alternate: Bool = false
   public var body: some View {
     VStack {
-      
-      
-      VectorView(vector: vector)
-        .border(.yellow)
-      
-      Spacer()
-      
-      Button("Rotate") {
-        withAnimation(.bouncy(duration: 1)) {
-          if alternate {
-            vector.x.value -= 10
-          }
-          else {
-            vector.x.value += 10
-          }
-          alternate.toggle()
-        }
-      }
+      VectorView(vector: motionSensor.attitude)
     }
   }
 }
@@ -54,7 +25,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   // The vector to be displayed
   public var vector: Vector<UnitType>
   
-  public let scale = 10.0
+  public let scale = 1.0
   
   public func makeUIView(context: Context) -> SCNView {
     let scnView = SCNView()
@@ -84,7 +55,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
     // Add some lighting
     let lightNode = SCNNode()
     lightNode.light = SCNLight()
-    lightNode.light?.type = .omni
+    lightNode.light?.type = .ambient
     lightNode.position = SCNVector3(x: 1, y: 1, z: 1)
     scene.rootNode.addChildNode(lightNode)
     
