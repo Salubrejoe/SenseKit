@@ -49,7 +49,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
     // Add camera
     let cameraNode = SCNNode()
     cameraNode.camera = SCNCamera()
-    cameraNode.position = SCNVector3(x: 0, y: 0, z: 20) // Position the camera
+    cameraNode.position = SCNVector3(x: 0, y: 0, z: 2*Float(scale)) // Position the camera
     scene.rootNode.addChildNode(cameraNode)
     
     // Add some lighting
@@ -67,7 +67,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
     // Add initial vector
     let vectorNode = makeVectorNode(vector: vector)
     scene.rootNode.addChildNode(vectorNode)
-//    scene.rootNode.addChildNode(SCNNode(geometry: SCNSphere(radius: 0.5)))
+    scene.rootNode.addChildNode(SCNNode(geometry: SCNSphere(radius: 0.2)))
     
     return scene
   }
@@ -97,7 +97,7 @@ public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
   
   // Creates a vector node based on the given vector values
   private func makeVectorNode(vector: Vector<UnitType>) -> SCNNode {
-    let magnitude = CGFloat(vector.magnitude().value)*10
+    let magnitude = CGFloat(vector.magnitude().value)*scale
     
     let vectorGeometry = SCNCylinder(radius: 0.2, height: magnitude)
     vectorGeometry.firstMaterial?.diffuse.contents = UIColor.black
