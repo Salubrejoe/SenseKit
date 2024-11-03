@@ -7,20 +7,18 @@ public struct AttitudeView: View {
   @Environment(MotionSensor.self) var motionSensor
   public var body: some View {
     VStack {
-      VectorView(vector: motionSensor.attitude)
+      CartesianVectorView(for: motionSensor.attitude)
     }
   }
 }
 
 
 // The main VectorView which contains a SceneKit scene with 3D vector rendering
-public struct VectorView<UnitType: Dimension>: UIViewRepresentable {
+public struct CartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   
-  public init(vector: Vector<UnitType>) {
+  public init(for vector: Vector<UnitType>) {
     self.vector = vector
   }
-  
-//  @Binding var animate: Bool
   
   // The vector to be displayed
   public var vector: Vector<UnitType>
