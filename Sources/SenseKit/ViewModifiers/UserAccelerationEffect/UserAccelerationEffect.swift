@@ -38,8 +38,8 @@ public struct UserAccelerationEffect: ViewModifier {
   private var size: CGSize {
     guard let stream else { return .zero }
     return CGSize(
-      width:  stream.userAccelerationValue(significantDigits: 0).x,
-      height: stream.userAccelerationValue(significantDigits: 0).y
+      width:  stream.userAcceleration.x.value,
+      height: stream.userAcceleration.y.value
     )
   }
 }

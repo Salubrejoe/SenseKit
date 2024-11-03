@@ -44,7 +44,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.magneticFieldDescriptors(),
       magnitudeDescriptor: motionSensor.magneticFieldMagnitudeDescriptor()
     ) {
-      VectorView(vector: motionSensor.magnetometer)
+      CartesianVectorView(for: motionSensor.magnetometer)
         .frame(height: 200)
     }
   }
@@ -55,7 +55,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.attitudeDescriptors(),
       magnitudeDescriptor: motionSensor.attitudeMagnitudeDescriptor()
     ) {
-      VectorView(vector: motionSensor.attitude)
+      CartesianVectorView(for: motionSensor.attitude)
         .frame(height: 200)
     }
   }
@@ -66,7 +66,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.gravityDescriptors(),
       magnitudeDescriptor: motionSensor.gravityMagnitudeDescriptor()
     )  {
-      VectorView(vector: motionSensor.gravity)
+      CartesianVectorView(for: motionSensor.gravity)
         .frame(height: 200)
     }
   }
@@ -77,7 +77,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.userAccelerationDescriptors(),
       magnitudeDescriptor: motionSensor.userAccelerationMagnitudeDescriptor()
     )  {
-      VectorView(vector: motionSensor.userAcceleration)
+      CartesianVectorView(for: motionSensor.userAcceleration)
         .frame(height: 200)
     }
   }
@@ -89,7 +89,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.rotationRateMagnitudeDescriptor()
     )
     {
-      VectorView(vector: motionSensor.rotationRate)
+      CartesianVectorView(for: motionSensor.rotationRate)
         .frame(height: 200)
     }
   }

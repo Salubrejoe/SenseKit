@@ -155,5 +155,69 @@ public extension MotionSensor {
     magnetometer.components(significantDigits: significantDigits)
   }
   
-  /// Returns formatted gravity
+  /// Returns formatted gravity vector values.
+  func gravityValue(significantDigits: Int = 1) -> Vector.Components {
+    gravity.components(significantDigits: significantDigits)
+  }
+  
+  /// Returns formatted user acceleration vector values.
+  func userAccelerationValue(significantDigits: Int = 1) -> Vector.Components {
+    userAcceleration.components(significantDigits: significantDigits)
+  }
 }
+
+// MARK: - String Properties
+public extension MotionSensor {
+  
+  /// Returns string descriptors of the attitude vector.
+  func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+    attitude.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns string descriptors of the magnetic field vector.
+  func magneticFieldDescriptors(significantDigits: Int = 0, includeUnit: Bool = true) -> Vector.Descriptors {
+    magnetometer.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns string descriptors of the gravity vector.
+  func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+    gravity.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns string descriptors of the user acceleration vector.
+  func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+    userAcceleration.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns string descriptors of the rotation rate vector.
+  func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> Vector.Descriptors {
+    rotationRate.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns the magnitude descriptor of the attitude vector.
+  func attitudeMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    attitude.magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns the magnitude descriptor of the magnetic field vector.
+  func magneticFieldMagnitudeDescriptor(significantDigits: Int = 0, includeUnit: Bool = true) -> String {
+    magnetometer.magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns the magnitude descriptor of the gravity vector.
+  func gravityMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    gravity.magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns the magnitude descriptor of the user acceleration vector.
+  func userAccelerationMagnitudeDescriptor(significantDigits: Int = 1, includeUnit: Bool = true) -> String {
+    userAcceleration.magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+  
+  /// Returns the magnitude descriptor of the rotation rate vector.
+  func rotationRateMagnitudeDescriptor(significantDigits: Int = 2, includeUnit: Bool = true) -> String {
+    rotationRate.magnitude().description(significantDigits: significantDigits, includeUnit: includeUnit)
+  }
+}
+
+
