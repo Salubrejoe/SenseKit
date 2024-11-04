@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct LocationTestForm: View {
   
-  @Environment(Location.self) var location
+  @Environment(SKLocation.self) var location
   
   public var body: some View {
     Form {

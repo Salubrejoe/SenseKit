@@ -1,11 +1,11 @@
 import CoreMotion
 
-/// `AltitudeManager` is a singleton class responsible for monitoring the device's altitude data.
+/// `SKAltimeter` is a singleton class responsible for monitoring the device's altitude data.
 /// It uses `CMAltimeter` to obtain both relative and absolute altitude information, along with pressure data.
 /// Altitude readings are available only on devices that support altimeter sensors.
 @Observable
-public class AltitudeManager {
-  public static let stream = AltitudeManager()
+public class SKAltimeter {
+  public static let stream = SKAltimeter()
   
   /// `CMAltimeter` instance to track altitude changes.
   public let altimeter = CMAltimeter()
@@ -25,12 +25,12 @@ public class AltitudeManager {
   /// The air pressure at the current altitude, measured in kilopascals.
   public var pressure: Measurement<UnitPressure>?
   
-  /// Initializes the `AltitudeManager` and starts altitude monitoring if available.
+  /// Initializes the `SKAltimeter` and starts altitude monitoring if available.
   init() {
     do {
       try startAltimeter()
     } catch {
-      handleError(AltitudeManagerError.unknownError(error))
+      handleError(SKAltimeterError.unknownError(error))
     }
   }
   
@@ -41,17 +41,17 @@ public class AltitudeManager {
   }
 }
 
-public extension AltitudeManager {
+public extension SKAltimeter {
   
   /// Starts monitoring for both relative and absolute altitude updates.
-  /// - Throws: `AltitudeManagerError` if relative or absolute altitude is unavailable.
+  /// - Throws: `SKAltimeterError` if relative or absolute altitude is unavailable.
   func startAltimeter() throws {
     guard CMAltimeter.isRelativeAltitudeAvailable() else {
-      throw AltitudeManagerError.relativeAltitudeNotAvailable
+      throw SKAltimeterError.relativeAltitudeNotAvailable
     }
     
     guard CMAltimeter.isAbsoluteAltitudeAvailable() else {
-      throw AltitudeManagerError.absoluteAltitudeNotAvailable
+      throw SKAltimeterError.absoluteAltitudeNotAvailable
     }
     
     altimeter.startRelativeAltitudeUpdates(
@@ -93,8 +93,8 @@ public extension AltitudeManager {
 
 // MARK: - AltitudeManagerError
 
-/// Enum defining errors for `AltitudeManager`.
-public enum AltitudeManagerError: Error {
+/// Enum defining errors for `SKAltimeter`.
+public enum SKAltimeterError: Error {
   /// Error indicating that relative altitude monitoring is unavailable.
   case relativeAltitudeNotAvailable
   

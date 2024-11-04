@@ -1,33 +1,33 @@
 import CoreMotion
 
-/// `MotionSensor` provides an interface for accessing motion and environmental data from the device's sensors,
+/// `SKMotionSensor` provides an interface for accessing motion and environmental data from the device's sensors,
 /// including attitude, gravity, user acceleration, magnetometer, and rotation rate. It manages the configuration
 /// and updates from the device's `CMMotionManager`.
 ///
-/// - Note: `MotionSensor` is a singleton, accessible via `MotionSensor.stream`.
+/// - Note: `SKMotionSensor` is a singleton, accessible via `SKMotionSensor.stream`.
 @Observable
-public class MotionSensor {
+public class SKMotionSensor {
   
-  /// Singleton instance of `MotionSensor`.
-  public static let stream = MotionSensor()
+  /// Singleton instance of `SKMotionSensor`.
+  public static let stream = SKMotionSensor()
   
   /// The motion manager responsible for accessing motion data.
   public let motion = CMMotionManager()
   
   /// Current attitude in terms of pitch, roll, and yaw.
-  public var attitude: Vector<UnitAngle> = .zero
+  public var attitude: SKVector<UnitAngle> = .zero
   
   /// Current gravity vector.
-  public var gravity: Vector<UnitAcceleration> = .zero
+  public var gravity: SKVector<UnitAcceleration> = .zero
   
   /// Current user acceleration vector.
-  public var userAcceleration: Vector<UnitAcceleration> = .zero
+  public var userAcceleration: SKVector<UnitAcceleration> = .zero
   
   /// Current magnetic field vector.
-  public var magnetometer: Vector<UnitMagneticField> = .zero
+  public var magnetometer: SKVector<UnitMagneticField> = .zero
   
   /// Current rotation rate vector.
-  public var rotationRate: Vector<UnitAngularVelocity> = .zero
+  public var rotationRate: SKVector<UnitAngularVelocity> = .zero
   
   /// The update interval for sensor data, in seconds.
   public var updateInterval: TimeInterval {
@@ -39,19 +39,19 @@ public class MotionSensor {
     }
   }
   
-  /// Initializes a new `MotionSensor` instance with an optional update interval.
+  /// Initializes a new `SKMotionSensor` instance with an optional update interval.
   /// - Parameter updateInterval: The interval for sensor updates, defaulting to 0.1 seconds.
   init(updateInterval: TimeInterval = 0.1) {
     self.updateInterval = updateInterval
     start()
   }
   
-  /// Deinitializes `MotionSensor`, stopping all sensor updates.
+  /// Deinitializes `SKMotionSensor`, stopping all sensor updates.
   deinit { stop() }
 }
 
 // MARK: - Initialization Helpers
-public extension MotionSensor {
+public extension SKMotionSensor {
   
   /// Starts motion and magnetometer updates.
   func start() {
@@ -80,13 +80,13 @@ public extension MotionSensor {
 }
 
 // MARK: - DeviceMotion
-public extension MotionSensor {
+public extension SKMotionSensor {
   
   /// Starts device motion updates, including attitude, gravity, and user acceleration.
-  /// - Throws: `MotionSensorError.deviceMotionUnavailable` if device motion is unavailable.
+  /// - Throws: `SKMotionSensorError.deviceMotionUnavailable` if device motion is unavailable.
   func startDeviceMotion() throws {
     guard motion.isDeviceMotionAvailable else {
-      throw MotionSensorError.deviceMotionUnavailable
+      throw SKMotionSensorError.deviceMotionUnavailable
     }
     
     motion.startDeviceMotionUpdates(to: .current!) { [weak self] motionData, error in
@@ -104,21 +104,21 @@ public extension MotionSensor {
   /// Processes `CMDeviceMotion` data to update the attitude, rotation rate, gravity, and user acceleration properties.
   /// - Parameter motionData: The `CMDeviceMotion` data to process.
   private func process(_ motionData: CMDeviceMotion) {
-    self.attitude = DeviceMotionCalculator.shared.calculateAttitude(from: motionData)
-    self.rotationRate = DeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
-    self.gravity = DeviceMotionCalculator.shared.calculateGravity(from: motionData)
-    self.userAcceleration = DeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
+    self.attitude         = SKDeviceMotionCalculator.shared.calculateAttitude(from: motionData)
+    self.rotationRate     = SKDeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
+    self.gravity          = SKDeviceMotionCalculator.shared.calculateGravity(from: motionData)
+    self.userAcceleration = SKDeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
   }
 }
 
 // MARK: - Magnetometer
-public extension MotionSensor {
+public extension SKMotionSensor {
   
   /// Starts magnetometer updates to provide data on the magnetic field vector.
-  /// - Throws: `MotionSensorError.magnetometerUnavailable` if the magnetometer is unavailable.
+  /// - Throws: `SKMotionSensorError.magnetometerUnavailable` if the magnetometer is unavailable.
   func startMagnetometer() throws {
     guard motion.isMagnetometerAvailable else {
-      throw MotionSensorError.magnetometerUnavailable
+      throw SKMotionSensorError.magnetometerUnavailable
     }
     
     motion.magnetometerUpdateInterval = updateInterval
@@ -127,7 +127,7 @@ public extension MotionSensor {
     motion.startMagnetometerUpdates(to: .current!) { [weak self] data, error in
       guard let data = data else { return }
       DispatchQueue.main.async {
-        self?.magnetometer = Vector(
+        self?.magnetometer = SKVector(
           x: Measurement(value: data.magneticField.x, unit: .microteslas),
           y: Measurement(value: data.magneticField.y, unit: .microteslas),
           z: Measurement(value: data.magneticField.z, unit: .microteslas)
@@ -138,59 +138,59 @@ public extension MotionSensor {
 }
 
 // MARK: - Numeric Properties
-public extension MotionSensor {
+public extension SKMotionSensor {
   
   /// Returns formatted attitude vector values.
-  func attitudeValue(significantDigits: Int = 1) -> Vector.Components {
+  func attitudeValue(significantDigits: Int = 1) -> SKVector.Components {
     attitude.components(significantDigits: significantDigits)
   }
   
   /// Returns formatted rotation rate values.
-  func rotationRateValue(significantDigits: Int = 2) -> Vector.Components {
+  func rotationRateValue(significantDigits: Int = 2) -> SKVector.Components {
     rotationRate.components(significantDigits: significantDigits)
   }
   
   /// Returns formatted magnetic field values.
-  func magneticFieldValue(significantDigits: Int = 0) -> Vector.Components {
+  func magneticFieldValue(significantDigits: Int = 0) -> SKVector.Components {
     magnetometer.components(significantDigits: significantDigits)
   }
   
   /// Returns formatted gravity vector values.
-  func gravityValue(significantDigits: Int = 1) -> Vector.Components {
+  func gravityValue(significantDigits: Int = 1) -> SKVector.Components {
     gravity.components(significantDigits: significantDigits)
   }
   
   /// Returns formatted user acceleration vector values.
-  func userAccelerationValue(significantDigits: Int = 1) -> Vector.Components {
+  func userAccelerationValue(significantDigits: Int = 1) -> SKVector.Components {
     userAcceleration.components(significantDigits: significantDigits)
   }
 }
 
 // MARK: - String Properties
-public extension MotionSensor {
+public extension SKMotionSensor {
   
   /// Returns string descriptors of the attitude vector.
-  func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     attitude.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
   /// Returns string descriptors of the magnetic field vector.
-  func magneticFieldDescriptors(significantDigits: Int = 0, includeUnit: Bool = true) -> Vector.Descriptors {
+  func magneticFieldDescriptors(significantDigits: Int = 0, includeUnit: Bool = true) -> SKVector.Descriptors {
     magnetometer.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
   /// Returns string descriptors of the gravity vector.
-  func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     gravity.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
   /// Returns string descriptors of the user acceleration vector.
-  func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     userAcceleration.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
   /// Returns string descriptors of the rotation rate vector.
-  func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> Vector.Descriptors {
+  func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> SKVector.Descriptors {
     rotationRate.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
@@ -221,3 +221,22 @@ public extension MotionSensor {
 }
 
 
+
+// MARK: - ERROR
+/// `SKMotionSensorError` defines specific errors related to motion sensor operations within the `SKMotionSensor` class.
+/// These errors represent the states where specific motion features are unavailable or when unexpected issues occur.
+public enum SKMotionSensorError: Error {
+  
+  /// Indicates that the motion sensors (general) are unavailable on this device.
+  case motionUnavailable
+  
+  /// Indicates that device motion updates (attitude, rotation rate, gravity, etc.) are unavailable on this device.
+  case deviceMotionUnavailable
+  
+  /// Indicates that the magnetometer (magnetic field sensor) is unavailable on this device.
+  case magnetometerUnavailable
+  
+  /// Represents an unknown or unexpected error.
+  /// - Parameter error: The underlying error encountered.
+  case unknownError(Error)
+}

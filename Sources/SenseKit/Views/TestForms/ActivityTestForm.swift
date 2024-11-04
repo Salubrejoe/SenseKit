@@ -5,7 +5,7 @@ import CoreMotion
 
 public struct ActivityTestForm: View {
   
-  @Environment(ActivityManager.self) var activityManager
+  @Environment(SKActivityManager.self) var activityManager
   
   public var body: some View {
     Form {

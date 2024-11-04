@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct AltitudeTestForm: View {
   
-  @Environment(AltitudeManager.self) var altitudeManager
+  @Environment(SKAltimeter.self) var altitudeManager
   
   public var body: some View {
     Form {

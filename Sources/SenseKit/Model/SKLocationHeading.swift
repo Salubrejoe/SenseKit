@@ -1,10 +1,10 @@
 import CoreLocation
 
 /// A structure representing heading information, including true and magnetic headings.
-public struct GPSHeading {
+public struct SKLocationHeading {
   
   /// A constant representing zero heading with zero accuracy.
-  static public let zero: GPSHeading = .init()
+  static public let zero: SKLocationHeading = .init()
   
   /// The true heading measured in degrees, indicating the direction relative to true north.
   public var trueHeading: Measurement<UnitAngle>
@@ -22,7 +22,7 @@ public struct GPSHeading {
     self.headingAccuracy = .zeroDegrees
   }
   
-  /// Initializes a `Heading` instance based on a `CLHeading` object.
+  /// Initializes a `SKLocationHeading` instance based on a `CLHeading` object.
   /// - Parameter newHeading: A `CLHeading` object that contains heading information.
   public init(from newHeading: CLHeading) {
     self.trueHeading = Measurement(value: newHeading.trueHeading.rounded(), unit: UnitAngle.degrees)

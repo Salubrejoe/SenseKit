@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct MotionSensorTestForm: View {
   
-  @Environment(MotionSensor.self) var motionSensor
+  @Environment(SKMotionSensor.self) var motionSensor
   
   public var body: some View {
     Form {
@@ -44,7 +44,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.magneticFieldDescriptors(),
       magnitudeDescriptor: motionSensor.magneticFieldMagnitudeDescriptor()
     ) {
-      CartesianVectorView(for: motionSensor.magnetometer)
+      SKCartesianVectorView(for: motionSensor.magnetometer.normalized(toRange: 0...2))
         .frame(height: 200)
     }
   }
@@ -55,7 +55,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.attitudeDescriptors(),
       magnitudeDescriptor: motionSensor.attitudeMagnitudeDescriptor()
     ) {
-      CartesianVectorView(for: motionSensor.attitude)
+      SKCartesianVectorView(for: motionSensor.attitude)
         .frame(height: 200)
     }
   }
@@ -66,7 +66,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.gravityDescriptors(),
       magnitudeDescriptor: motionSensor.gravityMagnitudeDescriptor()
     )  {
-      CartesianVectorView(for: motionSensor.gravity)
+      SKCartesianVectorView(for: motionSensor.gravity)
         .frame(height: 200)
     }
   }
@@ -77,7 +77,7 @@ public extension MotionSensorTestForm {
       vectorDescriptors: motionSensor.userAccelerationDescriptors(),
       magnitudeDescriptor: motionSensor.userAccelerationMagnitudeDescriptor()
     )  {
-      CartesianVectorView(for: motionSensor.userAcceleration)
+      SKCartesianVectorView(for: motionSensor.userAcceleration)
         .frame(height: 200)
     }
   }
@@ -89,7 +89,7 @@ public extension MotionSensorTestForm {
       magnitudeDescriptor: motionSensor.rotationRateMagnitudeDescriptor()
     )
     {
-      CartesianVectorView(for: motionSensor.rotationRate)
+      SKCartesianVectorView(for: motionSensor.rotationRate)
         .frame(height: 200)
     }
   }

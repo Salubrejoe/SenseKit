@@ -2,19 +2,19 @@ import CoreLocation
 
 /// A singleton class that provides location and heading updates using `CLLocationManager`.
 @Observable
-public class Location: NSObject, CLLocationManagerDelegate {
+public class SKLocation: NSObject, CLLocationManagerDelegate {
   
   /// A shared instance of the `Location` class.
-  public static let stream = Location()
+  public static let stream = SKLocation()
   
   /// The location manager that handles location and heading updates.
   public let manager = CLLocationManager()
   
   /// A snapshot of the current location.
-  public var snapshot: LocationSnapshot?
+  public var snapshot: SKLocationSnapshot?
   
   /// The current heading of the device.
-  public var heading: GPSHeading = .zero
+  public var heading: SKLocationHeading = .zero
   
   /// The activity type for the location manager, indicating how location data is used.
   public var activityType: CLActivityType {
@@ -53,13 +53,13 @@ public class Location: NSObject, CLLocationManagerDelegate {
   /// - Parameter locations: An array of locations that have been updated.
   public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let currentLocation = locations.last else { return }
-    self.snapshot = LocationSnapshot(from: currentLocation)
+    self.snapshot = SKLocationSnapshot(from: currentLocation)
   }
   
   /// Delegate method that is called when the heading is updated.
   /// - Parameter manager: The location manager object that is sending the update.
   /// - Parameter newHeading: The new heading data.
   public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-    self.heading = GPSHeading(from: newHeading)
+    self.heading = SKLocationHeading(from: newHeading)
   }
 }

@@ -17,7 +17,7 @@ public extension View {
 
 public struct UserAccelerationEffect: ViewModifier {
   
-  @Environment(MotionSensor.self) var stream: MotionSensor?
+  @Environment(SKMotionSensor.self) var stream: SKMotionSensor?
   
   public let offsetAt1G: CGFloat
   public let animation: Animation

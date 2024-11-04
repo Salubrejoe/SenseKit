@@ -2,24 +2,24 @@ import CoreMotion
 
 /// A singleton class that provides access to motion data from AirPods using the `CMHeadphoneMotionManager`.
 @Observable
-public class AirpodsMotionSensor {
+public class SKHeadphonesMotionSensor {
   /// A shared instance of the `AirpodsMotionSensor`.
-  public static let stream = AirpodsMotionSensor()
+  public static let stream = SKHeadphonesMotionSensor()
   
   /// The motion manager that handles the device motion updates.
   public let motionManager = CMHeadphoneMotionManager()
   
   /// The current attitude of the AirPods represented as a vector of angles.
-  public var attitude: Vector<UnitAngle> = .zero
+  public var attitude: SKVector<UnitAngle> = .zero
   
   /// The current gravitational acceleration vector.
-  public var gravity: Vector<UnitAcceleration> = .zero
+  public var gravity: SKVector<UnitAcceleration> = .zero
   
   /// The current user acceleration vector.
-  public var userAcceleration: Vector<UnitAcceleration> = .zero
+  public var userAcceleration: SKVector<UnitAcceleration> = .zero
   
   /// The current rotation rate of the AirPods represented as a vector.
-  public var rotationRate: Vector<UnitAngularVelocity> = .zero
+  public var rotationRate: SKVector<UnitAngularVelocity> = .zero
   
   /// The current heading of the AirPods in degrees.
   public var heading: Measurement<UnitAngle> = .zeroDegrees
@@ -38,13 +38,13 @@ public class AirpodsMotionSensor {
 
 
 // MARK: - Initialization Helpers
-public extension AirpodsMotionSensor {
+public extension SKHeadphonesMotionSensor {
   
   /// Starts capturing motion updates from the AirPods.
   /// - Throws: An error if the device motion is unavailable.
   func start() throws {
     guard motionManager.isDeviceMotionAvailable else {
-      throw AirpodsMotionManagerError.deviceMotionUnavailable
+      throw SKHeadphonesMotionSensorError.deviceMotionUnavailable
     }
     
     motionManager.startDeviceMotionUpdates(to: .current!) { [weak self] motionData, error in
@@ -77,43 +77,43 @@ public extension AirpodsMotionSensor {
   /// Processes the motion data received from the motion manager.
   /// - Parameter motionData: The motion data to process.
   private func process(_ motionData: CMDeviceMotion) {
-    self.attitude = DeviceMotionCalculator.shared.calculateAttitude(from: motionData)
-    self.rotationRate = DeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
-    self.gravity = DeviceMotionCalculator.shared.calculateGravity(from: motionData)
-    self.userAcceleration = DeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
-    self.heading = DeviceMotionCalculator.shared.calculateHeading(from: motionData)
+    self.attitude = SKDeviceMotionCalculator.shared.calculateAttitude(from: motionData)
+    self.rotationRate = SKDeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
+    self.gravity = SKDeviceMotionCalculator.shared.calculateGravity(from: motionData)
+    self.userAcceleration = SKDeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
+    self.heading = SKDeviceMotionCalculator.shared.calculateHeading(from: motionData)
   }
 }
 
 
 // MARK: - Double Properties
-public extension AirpodsMotionSensor {
+public extension SKHeadphonesMotionSensor {
   
   /// Returns the current attitude values with specified significant digits.
   /// - Parameter significantDigits: The number of significant digits to round to.
   /// - Returns: The current attitude values.
-  func attitudeValue(significantDigits: Int = 1) -> Vector.Components {
+  func attitudeValue(significantDigits: Int = 1) -> SKVector.Components {
     attitude.components(significantDigits: significantDigits)
   }
   
   /// Returns the current rotation rate values with specified significant digits.
   /// - Parameter significantDigits: The number of significant digits to round to.
   /// - Returns: The current rotation rate values.
-  func rotationRateValue(significantDigits: Int = 2) -> Vector.Components {
+  func rotationRateValue(significantDigits: Int = 2) -> SKVector.Components {
     rotationRate.components(significantDigits: significantDigits)
   }
   
   /// Returns the current gravity values with specified significant digits.
   /// - Parameter significantDigits: The number of significant digits to round to.
   /// - Returns: The current gravity values.
-  func gravityValue(significantDigits: Int = 1) -> Vector.Components {
+  func gravityValue(significantDigits: Int = 1) -> SKVector.Components {
     gravity.components(significantDigits: significantDigits)
   }
   
   /// Returns the current user acceleration values with specified significant digits.
   /// - Parameter significantDigits: The number of significant digits to round to.
   /// - Returns: The current user acceleration values.
-  func userAccelerationValue(significantDigits: Int = 1) -> Vector.Components {
+  func userAccelerationValue(significantDigits: Int = 1) -> SKVector.Components {
     userAcceleration.components(significantDigits: significantDigits)
   }
   
@@ -127,14 +127,14 @@ public extension AirpodsMotionSensor {
 
 
 // MARK: - String Properties Descriptors
-public extension AirpodsMotionSensor {
+public extension SKHeadphonesMotionSensor {
   
   /// Returns string descriptors for the current attitude values.
   /// - Parameters:
   ///   - significantDigits: The number of significant digits to round to.
   ///   - includeUnit: A boolean indicating whether to include the unit in the output.
   /// - Returns: The string descriptors for the attitude.
-  func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func attitudeDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     attitude.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
@@ -143,7 +143,7 @@ public extension AirpodsMotionSensor {
   ///   - significantDigits: The number of significant digits to round to.
   ///   - includeUnit: A boolean indicating whether to include the unit in the output.
   /// - Returns: The string descriptors for the gravity.
-  func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func gravityDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     gravity.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
@@ -152,7 +152,7 @@ public extension AirpodsMotionSensor {
   ///   - significantDigits: The number of significant digits to round to.
   ///   - includeUnit: A boolean indicating whether to include the unit in the output.
   /// - Returns: The string descriptors for the user acceleration.
-  func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> Vector.Descriptors {
+  func userAccelerationDescriptors(significantDigits: Int = 1, includeUnit: Bool = true) -> SKVector.Descriptors {
     userAcceleration.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
@@ -161,7 +161,7 @@ public extension AirpodsMotionSensor {
   ///   - significantDigits: The number of significant digits to round to.
   ///   - includeUnit: A boolean indicating whether to include the unit in the output.
   /// - Returns: The string descriptors for the rotation rate.
-  func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> Vector.Descriptors {
+  func rotationRateDescriptors(significantDigits: Int = 2, includeUnit: Bool = true) -> SKVector.Descriptors {
     rotationRate.componentsDescriptions(significantDigits: significantDigits, includeUnit: includeUnit)
   }
   
@@ -214,8 +214,8 @@ public extension AirpodsMotionSensor {
 
 
 // MARK: - Error Handling
-/// An enumeration of possible errors that can occur with the AirPods motion manager.
-public enum AirpodsMotionManagerError: Error {
+/// An enumeration of possible errors that can occur with the `SKHeadphonesMotionSensor`.
+public enum SKHeadphonesMotionSensorError: Error {
   case deviceMotionUnavailable
   case unknownError(Error)
 }

@@ -1,19 +1,19 @@
 import CoreLocation
 
 /// A structure representing a snapshot of location data at a specific point in time.
-public struct LocationSnapshot {
+public struct SKLocationSnapshot {
   
-  /// A constant representing a zero-initialized `LocationSnapshot`.
-  static public let zero = LocationSnapshot()
+  /// A constant representing a zero-initialized `SKLocationSnapshot`.
+  static public let zero = SKLocationSnapshot()
   
   /// The timestamp of the location snapshot.
   public var timestamp: Date
   
   /// The geographic coordinates of the location snapshot.
-  public var coordinates: GPSCoordinates
+  public var coordinates: SKCoordinates
   
   /// The altitude information at the time of the snapshot.
-  public var altitude: GPSAltitude
+  public var altitude: SKLocationAltitude
   
   /// The speed of movement at the time of the snapshot, measured in meters per second.
   public var speed: Measurement<UnitSpeed>
@@ -34,7 +34,7 @@ public struct LocationSnapshot {
     self.floor = nil
   }
   
-  /// Initializes a `LocationSnapshot` instance using a `CLLocation` object.
+  /// Initializes a `SKLocationSnapshot` instance using a `CLLocation` object.
   /// - Parameter location: A `CLLocation` object that provides location data.
   public init(from location: CLLocation) {
     self.timestamp = location.timestamp
