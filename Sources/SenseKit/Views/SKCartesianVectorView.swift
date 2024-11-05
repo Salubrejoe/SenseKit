@@ -13,7 +13,7 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   public let scale: Float
   
   /// Optional colors for the x, y, z axes and vector.
-  public var axisColors: [Axis: UIColor] = [.x: .gray, .y: .gray, .z: .gray]
+  public var axisColors: [Axis: UIColor] = [.x: .red, .y: .gray, .z: .green]
   public var vectorColor: UIColor = .black
   
   // MARK: - Initializer
@@ -103,19 +103,19 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
     let axisNode = SCNNode(geometry: SCNCylinder(radius: 0.01*CGFloat(scale), height: CGFloat(scale)))
     axisNode.geometry?.firstMaterial?.diffuse.contents = axisColors[axis]
     
-    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.01*CGFloat(scale)))
+    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.02*CGFloat(scale)))
     tipNode.geometry?.firstMaterial?.diffuse.contents = axisColors[axis]
     
     switch axis {
     case .x:
-      tipNode.position = SCNVector3(scale, 0, 0)
+      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(scale / 2, 0, 0)
       axisNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
     case .y:
-      tipNode.position = SCNVector3(0, scale, 0)
+      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(0, scale / 2, 0)
     case .z:
-      tipNode.position = SCNVector3(0, 0, scale)
+      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(0, 0, scale / 2)
       axisNode.eulerAngles = SCNVector3(Float.pi / 2, 0, 0)
     }
