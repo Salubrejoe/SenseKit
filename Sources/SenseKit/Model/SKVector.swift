@@ -272,6 +272,8 @@ public extension SKVector {
       "Mass"
     case is UnitPower:
       "Power"
+    case is UnitAngle:
+      "Attitude"
     default:
       "Unknown"
     }

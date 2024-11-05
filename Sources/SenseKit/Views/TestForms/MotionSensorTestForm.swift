@@ -27,8 +27,6 @@ public extension MotionSensorTestForm {
     let (x, y, z) = vector.componentsDescriptions()
     
     Section(vector.title) {
-      SKCartesianVectorView(for: vector)
-        .frame(height: 30)
       Text("X: \(x)")
       Text("Y: \(y)")
       Text("Z: \(z)")
