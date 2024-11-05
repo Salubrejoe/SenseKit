@@ -108,18 +108,15 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
     
     switch axis {
     case .x:
-      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(scale / 2, 0, 0)
       axisNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
     case .y:
-      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(0, scale / 2, 0)
     case .z:
-      tipNode.position = SCNVector3(0, 0, 0)
       axisNode.position = SCNVector3(0, 0, scale / 2)
       axisNode.eulerAngles = SCNVector3(Float.pi / 2, 0, 0)
     }
-    
+    tipNode.position = SCNVector3(0, scale, 0)
     axisNode.addChildNode(tipNode)
     return axisNode
   }
