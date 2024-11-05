@@ -253,3 +253,27 @@ public extension SKVector  {
     return SCNQuaternion(qx, qy, qz, qw)
   }
 }
+
+
+// MARK: - String Properties
+public extension SKVector {
+  
+  var title: String {
+    switch x.unit.self {
+    case is UnitAcceleration:
+      "Acceleration"
+      case is UnitAngularVelocity:
+      "Angular Velocity"
+    case is UnitMagneticField:
+      "Magnetic Field"
+    case is UnitLength:
+      "Length"
+    case is UnitMass:
+      "Mass"
+    case is UnitPower:
+      "Power"
+    default:
+      "Unknown"
+    }
+  }
+}
