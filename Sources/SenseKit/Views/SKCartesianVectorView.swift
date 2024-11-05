@@ -13,8 +13,8 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   public let scale: Float
   
   /// Optional colors for the x, y, z axes and vector.
-  public var axisColors: [Axis: UIColor] = [.x: .red, .y: .gray, .z: .green]
-  public var vectorColor: UIColor = .black
+  public var axisColors: [Axis: UIColor] = [.x: .secondaryLabel, .y: .secondaryLabel, .z: .secondaryLabel]
+  public var vectorColor: UIColor = .label
   
   // MARK: - Initializer
   
@@ -128,10 +128,10 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   /// - Returns: An `SCNNode` representing the vector.
   private func makeVectorNode(vector: SKVector<UnitType>) -> SCNNode {
     let magnitude = CGFloat(vector.magnitude().value) * CGFloat(scale)
-    let vectorGeometry = SCNCylinder(radius: 0.02*CGFloat(scale), height: magnitude)
+    let vectorGeometry = SCNCylinder(radius: 0.015*CGFloat(scale), height: magnitude)
     vectorGeometry.firstMaterial?.diffuse.contents = vectorColor
     
-    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.02*CGFloat(scale)))
+    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.015*CGFloat(scale)))
     tipNode.geometry?.firstMaterial?.diffuse.contents = vectorColor
     tipNode.position = SCNVector3(0, magnitude/2, 0)
     
@@ -141,15 +141,13 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
     vectorNode.position = SCNVector3(0, magnitude / 2, 0)
     vectorNode.rotate(by: vector.quaternion(), aroundTarget: SCNVector3(0, 0, 0))
     
-    
-    
     return vectorNode
   }
   
   /// Creates a center node, which is a small sphere at the origin, for visual reference.
   private func makeCenterNode() -> SCNNode {
-    let centerNode = SCNNode(geometry: SCNSphere(radius: 0.02*CGFloat(scale)))
-    centerNode.geometry?.firstMaterial?.diffuse.contents = UIColor.systemBackground
+    let centerNode = SCNNode(geometry: SCNSphere(radius: 0.015*CGFloat(scale)))
+    centerNode.geometry?.firstMaterial?.diffuse.contents = vectorColor
     return centerNode
   }
   

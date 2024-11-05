@@ -12,11 +12,7 @@ public struct GravityView: View {
   public init() {}
   
   public var body: some View {
-    SKCartesianVectorView(
-      for: vector,
-      scale: 1.0,
-      vectorColor: .blue
-    )
+    SKCartesianVectorView(for: vector)
   }
 }
 
