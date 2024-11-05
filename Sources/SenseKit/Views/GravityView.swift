@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-struct GravityView: View {
+public struct GravityView: View {
   
   @State var vector = SKVector(
     x: Measurement(value: 0.0, unit: UnitAcceleration.gravity),
@@ -9,7 +9,9 @@ struct GravityView: View {
     z: Measurement(value: 1.0, unit: UnitAcceleration.gravity)
   )
   
-  var body: some View {
+  public init() {}
+  
+  public var body: some View {
     SKCartesianVectorView(
       for: vector,
       scale: 1.0,
