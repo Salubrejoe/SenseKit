@@ -28,10 +28,11 @@ public extension MotionSensorTestForm {
     
     Section(vector.title) {
       SKCartesianVectorView(for: vector)
+        .frame(height: 30)
       Text("X: \(x)")
       Text("Y: \(y)")
       Text("Z: \(z)")
-      Text("Module: \(vector.magnitude().description)")
+      Text("Module: \(vector.magnitude().description())")
     }
   }
 }
