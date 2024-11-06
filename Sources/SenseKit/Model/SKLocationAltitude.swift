@@ -1,6 +1,7 @@
 import CoreLocation
 
 /// A structure representing altitude information derived from GPS data.
+@MainActor
 public struct SKLocationAltitude {
   
   /// A constant representing zero altitude values for all measurements.

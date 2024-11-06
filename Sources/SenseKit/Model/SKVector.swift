@@ -6,6 +6,7 @@ import SceneKit
 ///
 /// - `UnitType`: A generic constraint requiring the vector's unit type to conform to `Dimension`.
 ///               This allows instances to support units like meters, degrees, radians, etc.
+@MainActor
 public class SKVector<UnitType: Dimension>: Equatable {
   
   // MARK: - Typealiases

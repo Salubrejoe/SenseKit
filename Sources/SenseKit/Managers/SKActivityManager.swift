@@ -3,6 +3,7 @@ import CoreMotion
 
 /// `SKActivityManager` is a singleton class responsible for managing and observing device activity updates using Core Motion's `CMMotionActivityManager`.
 /// It provides real-time information on the current device activity (e.g., walking, running, driving) by generating `SKCurrentActivity` objects.
+@MainActor
 @Observable
 public class SKActivityManager {
   public static let stream = SKActivityManager()
@@ -25,7 +26,7 @@ public class SKActivityManager {
     }
   }
   
-  deinit { activityManager.stopActivityUpdates() }
+  public func stop() { activityManager.stopActivityUpdates() }
   
   /// Starts monitoring device activity updates using `CMMotionActivityManager`.
   /// - Throws: `SKActivityManagerError.activityManagerUnavailable` if activity monitoring is unsupported.

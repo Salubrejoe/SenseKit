@@ -1,6 +1,7 @@
 import CoreLocation
 
 /// A structure representing heading information, including true and magnetic headings.
+@MainActor
 public struct SKLocationHeading {
   
   /// A constant representing zero heading with zero accuracy.

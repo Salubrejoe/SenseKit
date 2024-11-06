@@ -36,7 +36,7 @@ public class SKHeadphonesMotionSensor {
     }
   }
   
-  deinit { motionManager.stopDeviceMotionUpdates() }
+  public func stop() { motionManager.stopDeviceMotionUpdates() }
 }
 
 

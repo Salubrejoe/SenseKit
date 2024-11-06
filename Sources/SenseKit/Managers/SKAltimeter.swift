@@ -3,6 +3,7 @@ import CoreMotion
 /// `SKAltimeter` is a singleton class responsible for monitoring the device's altitude data.
 /// It uses `CMAltimeter` to obtain both relative and absolute altitude information, along with pressure data.
 /// Altitude readings are available only on devices that support altimeter sensors.
+@MainActor
 @Observable
 public class SKAltimeter {
   public static let stream = SKAltimeter()
@@ -35,7 +36,7 @@ public class SKAltimeter {
   }
   
   /// Stops altitude updates when the instance is deinitialized.
-  deinit {
+  public func stop() {
     altimeter.stopAbsoluteAltitudeUpdates()
     altimeter.stopRelativeAltitudeUpdates()
   }

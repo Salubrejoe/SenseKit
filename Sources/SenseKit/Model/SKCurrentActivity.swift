@@ -3,6 +3,7 @@ import CoreMotion
 
 /// `SKCurrentActivity` is a struct that represents a snapshot of the device's activity at a specific point in time.
 /// It includes details such as the activity type, start date, and confidence level.
+@MainActor
 public struct SKCurrentActivity {
   
   /// Default empty `SKCurrentActivity` instance with default values.
