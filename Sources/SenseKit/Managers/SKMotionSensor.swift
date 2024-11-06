@@ -5,30 +5,24 @@ import CoreMotion
 /// and updates from the device's `CMMotionManager`.
 ///
 /// - Note: `SKMotionSensor` is a singleton, accessible via `SKMotionSensor.stream`.
+
 @MainActor
 @Observable
 public class SKMotionSensor {
-  
   /// Singleton instance of `SKMotionSensor`.
   public static let stream = SKMotionSensor()
+  
   
   /// The motion manager responsible for accessing motion data.
   public let motion = CMMotionManager()
   
-  /// Current attitude in terms of pitch, roll, and yaw.
-  public var attitude: SKVector<UnitAngle> = .zero
+  /// Observed Properties
+  public var attitude         : SKVector<UnitAngle> = .zero
+  public var gravity          : SKVector<UnitAcceleration> = .zero
+  public var userAcceleration : SKVector<UnitAcceleration> = .zero
+  public var magnetometer     : SKVector<UnitMagneticField> = .zero
+  public var rotationRate     : SKVector<UnitAngularVelocity> = .zero
   
-  /// Current gravity vector.
-  public var gravity: SKVector<UnitAcceleration> = .zero
-  
-  /// Current user acceleration vector.
-  public var userAcceleration: SKVector<UnitAcceleration> = .zero
-  
-  /// Current magnetic field vector.
-  public var magnetometer: SKVector<UnitMagneticField> = .zero
-  
-  /// Current rotation rate vector.
-  public var rotationRate: SKVector<UnitAngularVelocity> = .zero
   
   /// The update interval for sensor data, in seconds.
   public var updateInterval: TimeInterval {
@@ -47,8 +41,8 @@ public class SKMotionSensor {
     start()
   }
   
-  /// Deinitializes `SKMotionSensor`, stopping all sensor updates.
-  deinit {
+  /// Stops all sensor updates.
+  public func stop() {
     motion.stopMagnetometerUpdates()
     motion.stopDeviceMotionUpdates()
     if motion.isAccelerometerAvailable {

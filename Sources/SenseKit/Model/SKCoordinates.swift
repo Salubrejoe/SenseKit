@@ -3,24 +3,15 @@ import MapKit
 
 // A structure for representing geographic coordinates with an associated uncertainty radius.
 /// This struct uses Apple's `Measurement` API for unit-safe storage of latitude, longitude, and uncertainty radius.
-@MainActor
-public struct SKCoordinates {
-  /// A default instance of `SKCoordinates` with all values set to zero.
-  static public let zero: SKCoordinates = .init()
-  
-  // MARK: - Properties
-  
-  /// Longitude represented as a `Measurement` in degrees.
+public struct SKCoordinates: Sendable {
+
   public var longitude: Measurement<UnitAngle>
-  
-  /// Latitude represented as a `Measurement` in degrees.
   public var latitude: Measurement<UnitAngle>
-  
-  /// Radius of uncertainty represented as a `Measurement` in meters.
   public var uncertaintyRadius: Measurement<UnitLength>
   
-  // MARK: - Initializers
   
+  // MARK: - Initializers
+  ///
   /// Initializes `SKCoordinates` with default values (zero for latitude, longitude, and uncertainty radius).
   public init() {
     self.longitude = .zeroDegrees

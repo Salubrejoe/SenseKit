@@ -10,6 +10,7 @@ import CoreMotion
 public class SKDeviceMotionCalculator: @unchecked Sendable {
   
   /// Shared singleton instance of `DeviceMotionCalculator`.
+//  @MainActor
   static public let shared = SKDeviceMotionCalculator()
   
   /// Calculates the device’s attitude (pitch, roll, and yaw) in radians.

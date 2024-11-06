@@ -1,12 +1,8 @@
 import CoreLocation
 
 /// A structure representing altitude information derived from GPS data.
-@MainActor
-public struct SKLocationAltitude {
-  
-  /// A constant representing zero altitude values for all measurements.
-  static public let zero: SKLocationAltitude = .init()
-  
+public struct SKLocationAltitude: Sendable {
+
   /// The altitude of the device above sea level.
   public var altitude: Measurement<UnitLength>
   
@@ -16,6 +12,9 @@ public struct SKLocationAltitude {
   /// The uncertainty associated with the vertical position measurement.
   public var verticalUncertainty: Measurement<UnitLength>
   
+  
+  // MARK: - Initializers
+  ///
   /// Initializes a `SKLocationAltitude` instance with zero values for all measurements.
   public init() {
     self.altitude = .zeroMeters

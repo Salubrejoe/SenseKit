@@ -1,11 +1,11 @@
 import CoreLocation
 
 /// A singleton class that provides location and heading updates using `CLLocationManager`.
-@MainActor
 @Observable
-public class SKLocation: NSObject, CLLocationManagerDelegate {
+public class SKLocation: NSObject, CLLocationManagerDelegate, @unchecked Sendable {
   
   /// A shared instance of the `Location` class.
+  @MainActor
   public static let stream = SKLocation()
   
   /// The location manager that handles location and heading updates.
@@ -15,7 +15,7 @@ public class SKLocation: NSObject, CLLocationManagerDelegate {
   public var snapshot: SKLocationSnapshot?
   
   /// The current heading of the device.
-  public var heading: SKLocationHeading = .zero
+  public var heading: SKLocationHeading = .init()
   
   /// The activity type for the location manager, indicating how location data is used.
   public var activityType: CLActivityType {
@@ -52,21 +52,22 @@ public class SKLocation: NSObject, CLLocationManagerDelegate {
   /// Delegate method that is called when new location data is available.
   /// - Parameter manager: The location manager object that is sending the update.
   /// - Parameter locations: An array of locations that have been updated.
-  nonisolated
   public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let currentLocation = locations.last else { return }
-    Task { @MainActor in
-      self.snapshot = SKLocationSnapshot(from: currentLocation)
+    let currentLocationCopy = SKLocationSnapshot(from: currentLocation)
+    DispatchQueue.main.async {
+      self.snapshot = currentLocationCopy
     }
   }
   
   /// Delegate method that is called when the heading is updated.
   /// - Parameter manager: The location manager object that is sending the update.
   /// - Parameter newHeading: The new heading data.
-  nonisolated
+  
   public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-    Task { @MainActor in
-      self.heading = SKLocationHeading(from: newHeading)
+    let headingCopy = SKLocationHeading(from: newHeading)
+    DispatchQueue.main.async {
+      self.heading = headingCopy
     }
   }
 }
