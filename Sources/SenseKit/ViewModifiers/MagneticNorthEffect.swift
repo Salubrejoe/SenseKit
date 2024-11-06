@@ -16,7 +16,7 @@ public struct MagneticNorthEffect: ViewModifier {
   
   public func body(content: Content) -> some View {
     
-    if let stream {
+    if let _ = stream {
       content
         .rotationEffect(headingAngle, anchor: .bottom)
         .animation(

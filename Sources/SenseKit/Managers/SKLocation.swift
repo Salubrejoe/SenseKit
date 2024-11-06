@@ -52,15 +52,21 @@ public class SKLocation: NSObject, CLLocationManagerDelegate {
   /// Delegate method that is called when new location data is available.
   /// - Parameter manager: The location manager object that is sending the update.
   /// - Parameter locations: An array of locations that have been updated.
+  nonisolated
   public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let currentLocation = locations.last else { return }
-    self.snapshot = SKLocationSnapshot(from: currentLocation)
+    Task { @MainActor in
+      self.snapshot = SKLocationSnapshot(from: currentLocation)
+    }
   }
   
   /// Delegate method that is called when the heading is updated.
   /// - Parameter manager: The location manager object that is sending the update.
   /// - Parameter newHeading: The new heading data.
+  nonisolated
   public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-    self.heading = SKLocationHeading(from: newHeading)
+    Task { @MainActor in
+      self.heading = SKLocationHeading(from: newHeading)
+    }
   }
 }

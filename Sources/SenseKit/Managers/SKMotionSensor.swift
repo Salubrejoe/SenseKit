@@ -5,6 +5,7 @@ import CoreMotion
 /// and updates from the device's `CMMotionManager`.
 ///
 /// - Note: `SKMotionSensor` is a singleton, accessible via `SKMotionSensor.stream`.
+@MainActor
 @Observable
 public class SKMotionSensor {
   
@@ -47,7 +48,13 @@ public class SKMotionSensor {
   }
   
   /// Deinitializes `SKMotionSensor`, stopping all sensor updates.
-  deinit { stop() }
+  deinit {
+    motion.stopMagnetometerUpdates()
+    motion.stopDeviceMotionUpdates()
+    if motion.isAccelerometerAvailable {
+      motion.stopAccelerometerUpdates()
+    }
+  }
 }
 
 // MARK: - Initialization Helpers
@@ -60,15 +67,6 @@ public extension SKMotionSensor {
       try startMagnetometer()
     } catch {
       handleError(error)
-    }
-  }
-  
-  /// Stops all active sensor updates.
-  func stop() {
-    motion.stopMagnetometerUpdates()
-    motion.stopDeviceMotionUpdates()
-    if motion.isAccelerometerAvailable {
-      motion.stopAccelerometerUpdates()
     }
   }
   

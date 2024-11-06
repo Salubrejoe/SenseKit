@@ -1,6 +1,7 @@
 import CoreMotion
 
 /// A singleton class that provides access to motion data from AirPods using the `CMHeadphoneMotionManager`.
+@MainActor
 @Observable
 public class SKHeadphonesMotionSensor {
   /// A shared instance of the `AirpodsMotionSensor`.
@@ -35,7 +36,7 @@ public class SKHeadphonesMotionSensor {
     }
   }
   
-  deinit { stop() }
+  deinit { motionManager.stopDeviceMotionUpdates() }
 }
 
 
@@ -65,10 +66,6 @@ public extension SKHeadphonesMotionSensor {
     }
   }
   
-  /// Stops capturing motion updates from the AirPods.
-  func stop() {
-    motionManager.stopDeviceMotionUpdates()
-  }
   
   /// Handles errors that occur during motion updates.
   /// - Parameter error: The error that occurred.

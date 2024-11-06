@@ -1,6 +1,7 @@
 import CoreLocation
 
 /// A structure representing a snapshot of location data at a specific point in time.
+@MainActor
 public struct SKLocationSnapshot {
   
   /// A constant representing a zero-initialized `SKLocationSnapshot`.

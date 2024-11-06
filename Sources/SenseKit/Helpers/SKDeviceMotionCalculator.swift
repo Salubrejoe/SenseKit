@@ -8,6 +8,7 @@ import CoreMotion
 /// - Core Motion Data: Utilizes `CMDeviceMotion` data for calculations.
 /// - Units: Returns values in `Measurement` with appropriate units for straightforward conversions.
 
+@MainActor
 public class SKDeviceMotionCalculator {
   
   /// Shared singleton instance of `DeviceMotionCalculator`.
