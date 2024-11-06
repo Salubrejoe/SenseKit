@@ -7,9 +7,7 @@ import CoreMotion
 /// - Singleton: Access the shared instance via `SKDeviceMotionCalculator.shared`.
 /// - Core Motion Data: Utilizes `CMDeviceMotion` data for calculations.
 /// - Units: Returns values in `Measurement` with appropriate units for straightforward conversions.
-
-@MainActor
-public class SKDeviceMotionCalculator {
+public class SKDeviceMotionCalculator: @unchecked Sendable {
   
   /// Shared singleton instance of `DeviceMotionCalculator`.
   static public let shared = SKDeviceMotionCalculator()

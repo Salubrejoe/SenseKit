@@ -6,7 +6,7 @@ import Foundation
 /// - Units:
 ///   - `radiansPerSecond`: Angular velocity in radians per second, the base unit.
 ///   - `degreesPerSecond`: Angular velocity in degrees per second, with a conversion coefficient.
-public class UnitAngularVelocity: Dimension {
+public class UnitAngularVelocity: Dimension, @unchecked Sendable {
   
   /// Angular velocity in radians per second, serving as the base unit for `UnitAngularVelocity`.
   static let radiansPerSecond = UnitAngularVelocity(
@@ -32,7 +32,7 @@ public class UnitAngularVelocity: Dimension {
 /// - Units:
 ///   - `microteslas`: Magnetic field strength in microteslas, the base unit.
 ///   - `gauss`: Magnetic field strength in gauss, where 1 gauss equals 100 microteslas.
-public class UnitMagneticField: Dimension {
+public class UnitMagneticField: Dimension, @unchecked Sendable {
   
   /// Magnetic field strength in microteslas, serving as the base unit for `UnitMagneticField`.
   static let microteslas = UnitMagneticField(symbol: "µT", converter: UnitConverterLinear(coefficient: 1.0))
