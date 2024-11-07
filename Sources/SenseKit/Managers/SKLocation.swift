@@ -44,9 +44,20 @@ public class SKLocation: NSObject, CLLocationManagerDelegate, @unchecked Sendabl
   
   /// Requests authorization for location services.
   public func requestAuthorizations() {
-    manager.requestAlwaysAuthorization()
     manager.requestWhenInUseAuthorization()
-    manager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "Pretty please?")
+  }
+  
+  public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    switch manager.authorizationStatus {
+    case .authorizedAlways, .authorizedWhenInUse:
+      startLocationAndHeading()
+    case .denied, .restricted:
+      print("Location access denied or restricted.")
+    case .notDetermined:
+      requestAuthorizations()
+    @unknown default:
+      break
+    }
   }
   
   /// Delegate method that is called when new location data is available.
