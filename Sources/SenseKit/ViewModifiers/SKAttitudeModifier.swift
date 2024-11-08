@@ -26,6 +26,7 @@ public extension View {
 }
 
 public struct SKAttitudeModifier: ViewModifier {
+  public typealias Radians = Double
   
   @Environment(SKMotionSensor.self) var stream: SKMotionSensor?
   
@@ -34,42 +35,41 @@ public struct SKAttitudeModifier: ViewModifier {
   public let yawFactor   : CGFloat
   public let animation   : Animation
   
-  @State private var currentAttitude: SKVector<UnitAngle> = .zero
+  @State private var currentPitch : Radians = .zero
+  @State private var currentRoll  : Radians = .zero
+  @State private var currentYaw   : Radians = .zero
   
   public func body(content: Content) -> some View {
     content
       .rotation3DEffect(
-        .radians(currentAttitude.x.value * pitchFactor),
+        .radians(currentPitch * pitchFactor),
         axis: (x: 1, y: 0, z: 0),
         perspective: 0
       )
       .rotation3DEffect(
-        .radians(currentAttitude.y.value * rollFactor),
+        .radians(currentRoll * rollFactor),
         axis: (x: 0, y: 1, z: 0),
         perspective: 0
       )
       .rotation3DEffect(
-        .radians(currentAttitude.z.value * yawFactor),
+        .radians(currentYaw * yawFactor),
         axis: (x: 0, y: 0, z: 1),
         perspective: 0
       )
-      .animation(animation, value: currentAttitude)
-      .onChange(of: attitude, calculateAttitude)
+      .animation(animation, value: currentPitch)
+      .animation(animation, value: currentRoll)
+      .animation(animation, value: currentYaw)
+      .onChange(of: attitude.x.value, calculateAngle)
+      .onChange(of: attitude.y.value, calculateAngle)
+      .onChange(of: attitude.z.value, calculateAngle)
   }
   
   private var attitude: SKVector<UnitAngle> {
     stream?.attitude ?? .init(x: .zeroRadians, y: .zeroRadians, z: .zeroRadians)
   }
   
-  private func calculateAttitude(_ oldAngle: SKVector<UnitAngle>, _ newAngle: SKVector<UnitAngle>) {
-    let deltaX = Measurement<UnitAngle>(value:  newAngle.x.value - oldAngle.x.value, unit: .radians)
-    let deltaY = Measurement<UnitAngle>(value:  newAngle.y.value - oldAngle.y.value, unit: .radians)
-    let deltaZ = Measurement<UnitAngle>(value:  newAngle.z.value - oldAngle.z.value, unit: .radians)
-    
-    let deltaVector = SKVector(x: deltaX, y: deltaY, z: deltaZ)
-    
-//    let newVector = currentAttitude.subtracting(deltaVector)
-    currentAttitude = currentAttitude.subtracting(deltaVector)
-    
+  private func calculateAngle(_ oldValue: Radians, _ newValue: Radians) {
+    let delta = newValue - oldValue
+    currentPitch -=  delta
   }
 }
