@@ -61,7 +61,15 @@ public struct SKAttitudeModifier: ViewModifier {
     stream?.attitude ?? .init(x: .zeroRadians, y: .zeroRadians, z: .zeroRadians)
   }
   
-  private func calculateAttitude(_ oldValue: SKVector<UnitAngle>, _ newValue: SKVector<UnitAngle>) {
-    currentAttitude = attitude
+  private func calculateAttitude(_ oldAngle: SKVector<UnitAngle>, _ newAngle: SKVector<UnitAngle>) {
+    let deltaX = Measurement<UnitAngle>(value:  newAngle.x.value - oldAngle.x.value, unit: .radians)
+    let deltaY = Measurement<UnitAngle>(value:  newAngle.y.value - oldAngle.y.value, unit: .radians)
+    let deltaZ = Measurement<UnitAngle>(value:  newAngle.z.value - oldAngle.z.value, unit: .radians)
+    
+    let deltaVector = SKVector(x: deltaX, y: deltaY, z: deltaZ)
+    
+//    let newVector = currentAttitude.subtracting(deltaVector)
+    currentAttitude = currentAttitude.subtracting(deltaVector)
+    
   }
 }
