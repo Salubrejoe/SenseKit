@@ -22,24 +22,28 @@ public struct SKAccelerationModifier: ViewModifier {
   public let offsetAt1G: CGFloat
   public let animation: Animation
   
+  @State var currentAcceleration: SKVector<UnitAcceleration> = .zero
+  
   public func body(content: Content) -> some View {
-    
-    if let stream {
-      
-      content
-        .offset(size)
-        .animation(animation, value: stream.userAcceleration)
-      
-    } else {
-      content
-    }
+    content
+      .offset(size)
+      .animation(animation, value: acceleration)
+      .onChange(of: acceleration, calculateAcceleration)
+  }
+  
+  private var acceleration: SKVector<UnitAcceleration> {
+    stream?.userAcceleration ?? .init(x: .zeroMetersPerSecondsSquared, y: .zeroMetersPerSecondsSquared, z: .zeroMetersPerSecondsSquared)
   }
   
   private var size: CGSize {
     guard let stream else { return .zero }
     return CGSize(
-      width:  stream.userAcceleration.x.value,
-      height: stream.userAcceleration.y.value
+      width:  acceleration.x.value,
+      height: acceleration.y.value
     )
+  }
+  
+  private func calculateAcceleration(_ oldValue: SKVector<UnitAcceleration>, _ newValue: SKVector<UnitAcceleration>) {
+    currentAcceleration = acceleration
   }
 }

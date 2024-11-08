@@ -59,3 +59,12 @@ public extension Measurement where UnitType == UnitSpeed {
     .init(value: 0.0, unit: .metersPerSecond)
   }
 }
+
+
+public extension Measurement where UnitType == UnitAcceleration {
+  
+  /// A static `Measurement` instance representing a speed of zero meters per second.
+  static var zeroMetersPerSecondsSquared: Measurement<UnitAcceleration> {
+    .init(value: 0.0, unit: .metersPerSecondSquared)
+  }
+}
