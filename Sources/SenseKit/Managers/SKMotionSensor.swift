@@ -36,7 +36,7 @@ public class SKMotionSensor {
   
   /// Initializes a new `SKMotionSensor` instance with an optional update interval.
   /// - Parameter updateInterval: The interval for sensor updates, defaulting to 0.1 seconds.
-  init(updateInterval: TimeInterval = 0.1) {
+  init(updateInterval: TimeInterval = 0.2) {
     self.updateInterval = updateInterval
     start()
   }
