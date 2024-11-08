@@ -27,7 +27,7 @@ public struct SKAccelerationModifier: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .offset(size)
-      .animation(animation, value: acceleration)
+      .animation(animation, value: size)
       .onChange(of: acceleration, calculateAcceleration)
   }
   
