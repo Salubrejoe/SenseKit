@@ -9,13 +9,13 @@ public extension View {
   ///   - zAxisScaleFactor: Factor for adjusting the scale based on Z-axis acceleration.
   ///   - animation: Animation type for smooth effect transitions.
   /// - Returns: A view with applied user acceleration effects.
-  func userAccelerationEffect(offsetAt1G: CGFloat = 50, animation: Animation = .spring()) -> some View {
-    modifier(UserAccelerationEffect(offsetAt1G: offsetAt1G, animation: animation))
+  func skAccelerationModifier(offsetAt1G: CGFloat = 50, animation: Animation = .spring()) -> some View {
+    modifier(SKAccelerationModifier(offsetAt1G: offsetAt1G, animation: animation))
   }
 }
 
 
-public struct UserAccelerationEffect: ViewModifier {
+public struct SKAccelerationModifier: ViewModifier {
   
   @Environment(SKMotionSensor.self) var stream: SKMotionSensor?
   

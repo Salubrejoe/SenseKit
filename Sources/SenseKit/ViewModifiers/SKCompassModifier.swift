@@ -2,7 +2,6 @@
 import SwiftUI
 
 
-
 public struct SKCompassModifier: ViewModifier {
   
   @Environment(SKLocation.self) var location: SKLocation?
@@ -35,3 +34,4 @@ public extension View {
     modifier(SKCompassModifier(initialDisplacement: angle))
   }
 }
+
