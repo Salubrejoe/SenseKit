@@ -38,8 +38,8 @@ public struct SKAccelerationModifier: ViewModifier {
   private var size: CGSize {
     guard let stream else { return .zero }
     return CGSize(
-      width:  acceleration.x.value,
-      height: acceleration.y.value
+      width:  currentAcceleration.x.value*offsetAt1G,
+      height: currentAcceleration.y.value*offsetAt1G
     )
   }
   
