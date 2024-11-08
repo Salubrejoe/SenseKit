@@ -40,15 +40,18 @@ public struct SKAttitudeModifier: ViewModifier {
     content
       .rotation3DEffect(
         .radians(currentAttitude.x.value * pitchFactor),
-        axis: (x: 1, y: 0, z: 0)
+        axis: (x: 1, y: 0, z: 0),
+        perspective: 0
       )
       .rotation3DEffect(
         .radians(currentAttitude.y.value * rollFactor),
-        axis: (x: 0, y: 1, z: 0)
+        axis: (x: 0, y: 1, z: 0),
+        perspective: 0
       )
       .rotation3DEffect(
         .radians(currentAttitude.z.value * yawFactor),
-        axis: (x: 0, y: 0, z: 1)
+        axis: (x: 0, y: 0, z: 1),
+        perspective: 0
       )
       .animation(animation, value: currentAttitude)
       .onChange(of: attitude, calculateAttitude)
