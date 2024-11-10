@@ -20,16 +20,16 @@ public class SKVector<UnitType: Dimension>: Equatable {
   // MARK: - Properties
   
   /// X component of the vector.
-  var x: Measurement<UnitType>
+  public var x: Measurement<UnitType>
   
   /// Y component of the vector.
-  var y: Measurement<UnitType>
+  public var y: Measurement<UnitType>
   
   /// Z component of the vector.
-  var z: Measurement<UnitType>
+  public var z: Measurement<UnitType>
   
   /// Returns a zero vector with each component (x, y, z) initialized to zero in the base unit of `UnitType`.
-  static var zero: SKVector {
+  static public var zero: SKVector {
     .init(x: .init(value: 0, unit: UnitType.baseUnit()),
           y: .init(value: 0, unit: UnitType.baseUnit()),
           z: .init(value: 0, unit: UnitType.baseUnit()))
