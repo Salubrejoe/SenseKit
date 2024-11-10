@@ -64,8 +64,8 @@ public struct SKAttitudeModifier: ViewModifier {
         axis: (x: 0, y: 1, z: 0),
         perspective: 0
       )
-//      .animation(animation, value: pitch)
-//      .animation(animation, value: roll)
+      .animation(animation, value: pitch)
+      .animation(animation, value: roll)
       .onChange(of: attitude.x.value, calculatePitch)
       .onChange(of: attitude.y.value, calculateRoll)
   }
