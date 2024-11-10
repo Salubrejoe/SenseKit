@@ -23,7 +23,7 @@ public extension Measurement {
     formatter.maximumFractionDigits = usableSignificantDigits
     formatter.minimumFractionDigits = usableSignificantDigits
     
-    let value = abs(self.value)
+    let value = self.value
     let valueString = formatter.string(from: NSNumber(value: value)) ?? "\(value)"
     
     return includeUnit ? "\(valueString) \(self.unit.symbol)" : valueString
