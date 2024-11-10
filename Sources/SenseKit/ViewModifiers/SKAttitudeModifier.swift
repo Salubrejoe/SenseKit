@@ -11,7 +11,6 @@ public extension View {
   func skAttitudeModifier(
     pitchFactor : CGFloat = 1,
     rollFactor  : CGFloat = 1,
-    yawFactor   : CGFloat = 1,
     animation   : Animation = .spring(),
     normaliser  : SKAttitudeModifier.Normaliser? = nil
   ) -> some View {
@@ -19,7 +18,6 @@ public extension View {
       SKAttitudeModifier(
         pitchFactor: pitchFactor,
         rollFactor: rollFactor,
-        yawFactor: yawFactor,
         animation: animation,
         normaliser: normaliser
       )
@@ -35,25 +33,21 @@ public struct SKAttitudeModifier: ViewModifier {
   
   public let pitchFactor : CGFloat
   public let rollFactor  : CGFloat
-  public let yawFactor   : CGFloat
   public let animation   : Animation
   
   public let normaliser : Normaliser?
   
   @State private var currentPitch : Radians = .zero
   @State private var currentRoll  : Radians = .zero
-  @State private var currentYaw   : Radians = .zero
   
   public init(
     pitchFactor : CGFloat,
     rollFactor  : CGFloat,
-    yawFactor   : CGFloat,
     animation   : Animation,
     normaliser  : Normaliser? = nil
   ) {
     self.pitchFactor = pitchFactor
     self.rollFactor  = rollFactor
-    self.yawFactor   = yawFactor
     self.animation   = animation
     self.normaliser  = normaliser
   }
@@ -61,26 +55,19 @@ public struct SKAttitudeModifier: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .rotation3DEffect(
-        .radians(currentPitch * pitchFactor),
+        .radians(pitch),
         axis: (x: 1, y: 0, z: 0),
         perspective: 0
       )
       .rotation3DEffect(
-        .radians(currentRoll * rollFactor),
+        .radians(roll),
         axis: (x: 0, y: 1, z: 0),
         perspective: 0
       )
-      .rotation3DEffect(
-        .radians(currentYaw * yawFactor),
-        axis: (x: 0, y: 0, z: 1),
-        perspective: 0
-      )
-      .animation(animation, value: currentPitch)
-      .animation(animation, value: currentRoll)
-      .animation(animation, value: currentYaw)
+//      .animation(animation, value: pitch)
+//      .animation(animation, value: roll)
       .onChange(of: attitude.x.value, calculatePitch)
       .onChange(of: attitude.y.value, calculateRoll)
-      .onChange(of: attitude.z.value, calculateYaw)
   }
   
   private var pitch: Radians {
@@ -90,6 +77,16 @@ public struct SKAttitudeModifier: ViewModifier {
     }
     else {
       return pitch
+    }
+  }
+  
+  private var roll: Radians {
+    var roll: Radians = currentRoll * rollFactor
+    if let normaliser {
+      return normaliser(roll)
+    }
+    else {
+      return roll
     }
   }
   
@@ -105,10 +102,5 @@ public struct SKAttitudeModifier: ViewModifier {
   private func calculateRoll(_ oldValue: Radians, _ newValue: Radians) {
     let delta = newValue - oldValue
     currentRoll -=  delta
-  }
-  
-  private func calculateYaw(_ oldValue: Radians, _ newValue: Radians) {
-    let delta = newValue - oldValue
-    currentYaw -=  delta
   }
 }
