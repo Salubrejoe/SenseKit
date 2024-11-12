@@ -1,13 +1,16 @@
+
 import SwiftUI
 
+
 public extension View {
-  /// Applies a rotation effect to the view based on device attitude, with customizable rotation factors for pitch, roll, and yaw.
+  /// Applies a 3D attitude-based rotational effect to a View.
+  ///
   /// - Parameters:
-  ///   - pitchFactor: Factor for adjusting the rotation based on pitch.
-  ///   - rollFactor: Factor for adjusting the rotation based on roll.
-  ///   - yawFactor: Factor for adjusting the rotation based on yaw.
-  ///   - animation: Animation type for smooth effect transitions.
-  /// - Returns: A view with applied attitude effects.
+  ///   - pitchFactor: The multiplier for the pitch (vertical) rotation effect.
+  ///   - rollFactor: The multiplier for the roll (horizontal) rotation effect.
+  ///   - animation: The animation type applied to the rotational changes.
+  ///   - normaliser: An optional closure to adjust the domain of the rotation values.
+  /// - Returns: A modified View with the SKAttitudeModifier applied.
   func skAttitudeModifier(
     pitchFactor : CGFloat = 1,
     rollFactor  : CGFloat = 1,
@@ -25,21 +28,29 @@ public extension View {
   }
 }
 
+// `SKAttitudeModifier` applies 3D rotation based on the device's motion data.
 public struct SKAttitudeModifier: ViewModifier {
   public typealias Radians = Double
   public typealias Normaliser = (CGFloat) -> (CGFloat)
   
+  // The motion data stream providing attitude information.
   @Environment(SKMotionSensor.self) var stream: SKMotionSensor?
   
   public let pitchFactor : CGFloat
   public let rollFactor  : CGFloat
   public let animation   : Animation
-  
-  public let normaliser : Normaliser?
+  public let normaliser  : Normaliser?
   
   @State private var currentPitch : Radians = .zero
   @State private var currentRoll  : Radians = .zero
   
+  // Initializer for `SKAttitudeModifier`.
+  //
+  // - Parameters:
+  //   - pitchFactor: Multiplier for pitch (vertical tilt) effect.
+  //   - rollFactor: Multiplier for roll (horizontal tilt) effect.
+  //   - animation: Animation applied to the rotation changes.
+  //   - normaliser: Optional closure to adjust the rotation values.
   public init(
     pitchFactor : CGFloat,
     rollFactor  : CGFloat,
@@ -52,6 +63,7 @@ public struct SKAttitudeModifier: ViewModifier {
     self.normaliser  = normaliser
   }
   
+  // Configures the 3D rotation effects on the `content` view.
   public func body(content: Content) -> some View {
     content
       .rotation3DEffect(
@@ -70,6 +82,7 @@ public struct SKAttitudeModifier: ViewModifier {
       .onChange(of: attitude.y.value, calculateRoll)
   }
   
+  // Computed property for pitch, applying `pitchFactor` and optional normalization.
   private var pitch: Radians {
     var pitch: Radians = currentPitch * pitchFactor
     if let normaliser {
@@ -80,6 +93,7 @@ public struct SKAttitudeModifier: ViewModifier {
     }
   }
   
+  // Computed property for roll, applying `rollFactor` and optional normalization.
   private var roll: Radians {
     var roll: Radians = currentRoll * rollFactor
     if let normaliser {
@@ -90,17 +104,28 @@ public struct SKAttitudeModifier: ViewModifier {
     }
   }
   
+  // Computed property that retrieves the current attitude from the motion sensor.
   private var attitude: SKVector<UnitAngle> {
     stream?.attitude ?? .init(x: .zeroRadians, y: .zeroRadians, z: .zeroRadians)
   }
   
+  // Updates the current pitch based on changes in attitude.
+  //
+  // - Parameters:
+  //   - oldValue: The previous pitch value.
+  //   - newValue: The updated pitch value.
   private func calculatePitch(_ oldValue: Radians, _ newValue: Radians) {
     let delta = newValue - oldValue
-    currentPitch -=  delta
+    currentPitch -= delta
   }
   
+  // Updates the current roll based on changes in attitude.
+  //
+  // - Parameters:
+  //   - oldValue: The previous roll value.
+  //   - newValue: The updated roll value.
   private func calculateRoll(_ oldValue: Radians, _ newValue: Radians) {
     let delta = newValue - oldValue
-    currentRoll -=  delta
+    currentRoll -= delta
   }
 }

@@ -1,5 +1,6 @@
 import CoreMotion
 
+/// SKHeadphonesMotionSensor
 /// A singleton class that provides access to motion data from AirPods using the `CMHeadphoneMotionManager`.
 @MainActor
 @Observable

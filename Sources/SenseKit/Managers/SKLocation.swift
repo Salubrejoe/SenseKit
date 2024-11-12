@@ -1,5 +1,6 @@
 import CoreLocation
 
+/// SKLocation
 /// A singleton class that provides location and heading updates using `CLLocationManager`.
 @Observable
 public class SKLocation: NSObject, CLLocationManagerDelegate, @unchecked Sendable {

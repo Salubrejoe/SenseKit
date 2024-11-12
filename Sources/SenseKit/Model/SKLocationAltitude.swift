@@ -4,7 +4,7 @@ import CoreLocation
 public struct SKLocationAltitude: Sendable {
 
   /// The altitude of the device above sea level.
-  public var altitude: Measurement<UnitLength>
+  public var aboveSeaLevel: Measurement<UnitLength>
   
   /// The ellipsoidal altitude of the device, representing height above the reference ellipsoid.
   public var ellipsoidalAltitude: Measurement<UnitLength>
