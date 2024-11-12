@@ -8,12 +8,11 @@
 
 - [Features](#features)
 - [Installation](#installation)
+- [Test](#test)
 - [Usage](#usage)
-  - [Device Activity](#device-activity)
-  - [Altitude](#altitude)
-  - [Location and Heading](#location-and-heading)
-  - [Device Motion and Acceleration](#device-motion-and-acceleration)
-  - [AirPods Motion](#airpods-motion)
+  - [DeviceMotion](#skmotionsensor)
+  - [Altitude](#skaltimeter)
+  - [Location](#sklocation)
 - [Requirements](#requirements)
 - [License](#license)
 
