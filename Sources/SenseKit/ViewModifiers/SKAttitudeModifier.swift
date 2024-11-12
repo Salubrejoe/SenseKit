@@ -84,9 +84,9 @@ public struct SKAttitudeModifier: ViewModifier {
   
   // Computed property for pitch, applying `pitchFactor` and optional normalization.
   private var pitch: Radians {
-    var pitch: Radians = currentPitch * pitchFactor
+    let pitch: Radians = currentPitch * pitchFactor
     if let normaliser {
-      return normaliser(pitch)
+      return normaliser(currentPitch) * pitchFactor
     }
     else {
       return pitch
@@ -97,7 +97,7 @@ public struct SKAttitudeModifier: ViewModifier {
   private var roll: Radians {
     var roll: Radians = currentRoll * rollFactor
     if let normaliser {
-      return normaliser(roll)
+      return normaliser(currentRoll) * rollFactor
     }
     else {
       return roll

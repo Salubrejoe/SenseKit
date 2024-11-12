@@ -32,14 +32,73 @@ SenseKit is organized into several singleton classes that each manage a specific
 ---
 
 ## Installation
+### Note!
+Ensure your app’s `Info.plist` includes the necessary permissions, such as 'Privacy - Location When In Use Usage Description' for location data and 'Privacy - Motion Usage Description'.
 
 To integrate SenseKit into your Swift project using Swift Package Manager:
 
 1. In Xcode, go to **File > Add Packages...**
 2. Enter the repository URL for SenseKit: `https://github.com/Salubrejoe/SenseKit`
 3. Select the latest version and add it to your project.
-### Note!
-### 4. Ensure your app’s Info.plist includes the necessary permissions, such as 'Privacy - Location When In Use Usage Description' for location data and 'Privacy - Motion Usage Description'.
+
+---
+
+## Test
+
+Try out all of the available data with the integrated test views:
+
+1.  `SensorsTestTabView()`
+```
+public struct SensorsTestTabView: View {
+  public var body: some View {
+    TabView {
+      MotionSensorTestForm()
+      AltitudeTestForm()
+      LocationTestForm()
+      ActivityTestForm()
+    }
+  }
+}
+```
+
+2. `SKCartesianVectorView(vector: SKVector)`
+```
+public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
+  
+  // MARK: - Properties
+  
+  /// The vector to be displayed.
+  public var vector: SKVector<UnitType>
+  
+  /// The scale factor for the scene, allowing the vector and axis sizes to be adjusted.
+  public let scale: Float
+  
+  /// Optional colors for the x, y, z axes and vector.
+  public var axisColors: [Axis: UIColor] = [.x: .secondaryLabel, .y: .secondaryLabel, .z: .secondaryLabel]
+  public var vectorColor: UIColor = .label
+  
+  // MARK: - Initializer
+  
+  /// Initializes the `CartesianVectorView` with a vector and optional parameters.
+  /// - Parameters:
+  ///   - vector: The 3D vector to be rendered.
+  ///   - scale: The scale factor for the scene.
+  ///   - axisColors: A dictionary of colors for the x, y, and z axes.
+  ///   - vectorColor: The color of the vector.
+  public init(
+    for vector: SKVector<UnitType>,
+    scale: Float = 1.0,
+    axisColors: [Axis: UIColor]? = nil,
+    vectorColor: UIColor = .systemPink
+  ) {
+    self.vector = vector
+    self.scale = scale
+    self.axisColors = axisColors ?? self.axisColors
+    self.vectorColor = vectorColor
+  }
+```
+
+(Remember to update `Info.plist`)
 
 ---
 
@@ -47,19 +106,29 @@ To integrate SenseKit into your Swift project using Swift Package Manager:
 
 All manager classes listed below can be accessed and handled to the enviroment thorugh the singleton `.stream`. 
 
-eg:
+Example:
 
 ```
+import SwiftUI
 import SenseKit
 
-@State private var motionSensor = SKMotionSensor.stream
+@main
+struct YourAppsNameApp: App {
+  @State private var motion           = SKMotionSensor.stream
+  @State private var location         = SKLocation.stream
+  @State private var barimeter        = SKAltimeter.stream
+  @State private var activityManager  = SKActivityManager.stream
+  
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
 
-...
-
-var body : some View {
-  WindowGroup {
-    Content View()
-  }.environment(motionSensor)
+    }
+    .environment(motion)
+    .environment(location)
+    .environment(barimeter)
+    .environment(activityManager)
+  }
 }
 ```
 
@@ -67,52 +136,75 @@ Access from any view with:
 
 ```
 @Environment(SKMotionSensor.self) var motionSensor
+@Environment(SKLocation.self) var location
+@Environment(SKAltimeter.self) var barimeter
+@Environment(SKActivityManager.self) var activityManager
 ```
 
 
 ### SKMotionSensor 
 #### Properties:
-- .attitude: SKVector<UnitAngle>
-- .gravity: SKVector<UnitAcceleration>
-- .magnetometer: SKVector<UnitMagneticField>
-- .rotationRate: SKVector<UnitAngularVelocity>
-- .userAcceleration: SKVector<UnitAcceleration>
+- `.attitude: SKVector<UnitAngle>`
+- `.gravity: SKVector<UnitAcceleration>`
+- `.magnetometer: SKVector<UnitMagneticField>`
+- `.rotationRate: SKVector<UnitAngularVelocity>`
+- `.userAcceleration: SKVector<UnitAcceleration>`
 
 ### SKHeadphonesMotionSensor 
 #### Properties:
-- .attitude: SKVector<UnitAngle>
-- .gravity: SKVector<UnitAcceleration>
-- .heading: SKVector<UnitAngle>
-- .rotationRate: SKVector<UnitAngularVelocity>
-- .userAcceleration: SKVector<UnitAcceleration>
+- `.attitude: SKVector<UnitAngle>`
+- `.gravity: SKVector<UnitAcceleration>`
+- `.heading: SKVector<UnitAngle>`
+- `.rotationRate: SKVector<UnitAngularVelocity>`
+- `.userAcceleration: SKVector<UnitAcceleration>`
 
 ### SKAltimeter 
 #### Properties:
-- .pressure: Measurement<UnitPressure>?
-- .absoluteAltitude: Measurement<UnitLength>?
-- .absoluteAccuracy: Measurement<UnitLength>?
-- .absolutePrecision: Measurement<UnitLength>?
-- .relativeAltitude: Measurement<UnitLength>?
+- `.pressure: Measurement<UnitPressure>?`
+- `.absoluteAltitude: Measurement<UnitLength>?`
+- `.absoluteAccuracy: Measurement<UnitLength>?`
+- `.absolutePrecision: Measurement<UnitLength>?`
+- `.relativeAltitude: Measurement<UnitLength>?`
 
 ### SKLocation
 #### .heading:
-- .trueHeading: Measurment<UnitAngle>
-- .magneticHeading: Measurement<UnitAngle>
-- .headingAccuracy: Measurement<UnitAngle>
+- `.trueHeading: Measurment<UnitAngle>`
+- `.magneticHeading: Measurement<UnitAngle>`
+- `.headingAccuracy: Measurement<UnitAngle>`
 #### .snapshot:
-- .speed: Measurement<UnitSpeed>
-- .speedAccuracy: Measurement<UnitSpeed>
-- .coordinates.longitude: Measurement<UnitAngle>
-- .coordinates.latitude: Measurement<UnitAngle>
-- .coordinates.uncertaintyRadius: Measurement<UnitLenght>
-- .altitude.aboveSeaLevel: Measurement<UnitLenght>
-- .altitude.ellipsoidalAltitude: Measurement<UnitLenght>
-- .altitude.verticalUncertainty: Measurement<UnitLenght>
+- `.speed: Measurement<UnitSpeed>`
+- `.speedAccuracy: Measurement<UnitSpeed>`
+- `.coordinates.longitude: Measurement<UnitAngle>`
+- `.coordinates.latitude: Measurement<UnitAngle>`
+- `.coordinates.uncertaintyRadius: Measurement<UnitLenght>`
+- `.altitude.aboveSeaLevel: Measurement<UnitLenght>`
+- `.altitude.ellipsoidalAltitude: Measurement<UnitLenght>`
+- `.altitude.verticalUncertainty: Measurement<UnitLenght>`
 
 ### SKActivityManager
-- .currentActivity.startDate: Date
-- .currentActivity.activity: SKActivity (enum)
-- .currentActivity.confidence: CMMotionActivityConfidence (enum)
+- `.currentActivity.startDate: Date`
+- `.currentActivity.activity: SKActivity (enum)`
+- `.currentActivity.confidence: CMMotionActivityConfidence (enum)`
+
+---
+
+## View Modifiers
+
+This first version supports 3 Custom View Modifiers:
+
+### .skAttitudeModifier
+- `pitchFactor` multiplies the pitch angle
+- `rollFactor` multiplies the roll angle
+- `animation` allows you to pick your animation
+- `normaliser` accepts a function that will edit the angle. (acts BEFORE the pitchFactor/rollFactor)
+
+### .skCompassModifier
+- `initialDisplacement` in `SwiftUI.Angle`
+
+### .skAttitudeModifier
+- `offsetAt1G` is the offset value when acceleration hits 1 G of force.
+- `animation` allows you to pick your animation
+- `normaliser` accepts a function that will edit the offset. (acts AFTER the offsetAt1G multiplier)
 
 ---
 
