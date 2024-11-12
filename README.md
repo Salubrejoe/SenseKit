@@ -70,36 +70,36 @@ Access from any view with:
 ```
 
 
-###SKMotionSensor 
-####Properties:
+### SKMotionSensor 
+#### Properties:
 - .attitude: SKVector<UnitAngle>
 - .gravity: SKVector<UnitAcceleration>
 - .magnetometer: SKVector<UnitMagneticField>
 - .rotationRate: SKVector<UnitAngularVelocity>
 - .userAcceleration: SKVector<UnitAcceleration>
 
-###SKHeadphonesMotionSensor 
-####Properties:
+### SKHeadphonesMotionSensor 
+#### Properties:
 - .attitude: SKVector<UnitAngle>
 - .gravity: SKVector<UnitAcceleration>
 - .heading: SKVector<UnitAngle>
 - .rotationRate: SKVector<UnitAngularVelocity>
 - .userAcceleration: SKVector<UnitAcceleration>
 
-###SKAltimeter 
-####Properties:
+### SKAltimeter 
+#### Properties:
 - .pressure: Measurement<UnitPressure>?
 - .absoluteAltitude: Measurement<UnitLength>?
 - .absoluteAccuracy: Measurement<UnitLength>?
 - .absolutePrecision: Measurement<UnitLength>?
 - .relativeAltitude: Measurement<UnitLength>?
 
-###SKLocation
-####.heading:
+### SKLocation
+#### .heading:
 - .trueHeading: Measurment<UnitAngle>
 - .magneticHeading: Measurement<UnitAngle>
 - .headingAccuracy: Measurement<UnitAngle>
-####.snapshot:
+#### .snapshot:
 - .speed: Measurement<UnitSpeed>
 - .speedAccuracy: Measurement<UnitSpeed>
 - .coordinates.longitude: Measurement<UnitAngle>
@@ -109,7 +109,7 @@ Access from any view with:
 - .altitude.ellipsoidalAltitude: Measurement<UnitLenght>
 - .altitude.verticalUncertainty: Measurement<UnitLenght>
 
-###SKActivityManager
+### SKActivityManager
 - .currentActivity.startDate: Date
 - .currentActivity.activity: SKActivity (enum)
 - .currentActivity.confidence: CMMotionActivityConfidence (enum)
