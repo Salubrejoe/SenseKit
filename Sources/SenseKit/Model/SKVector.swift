@@ -280,3 +280,83 @@ public extension SKVector {
     }
   }
 }
+
+
+// MARK: - Zeros
+public extension SKVector where UnitType == UnitAngle {
+  
+  /// A static `SKVector` instance representing a Vector which components are angles of zero degrees.
+  static var zeroDegrees: SKVector<UnitAngle> {
+    .init(x: .zeroDegrees, y: .zeroDegrees, z: .zeroDegrees)
+  }
+  
+  /// A static `SKVector` instance representing a Vector which components are angles of zero radians.
+  static var zeroRadians: SKVector<UnitAngle> {
+    .init(x: .zeroRadians, y: .zeroRadians, z: .zeroRadians)
+  }
+}
+
+public extension SKVector where UnitType == UnitSpeed {
+  
+  /// A static `SKVector` instance representing a Vector which components are velocities of zero m/s.
+  static var zeroMetersPerSecond: SKVector<UnitSpeed> {
+    .init(x: .zeroMetersPerSecond, y: .zeroMetersPerSecond, z: .zeroMetersPerSecond)
+  }
+  
+  /// A static `SKVector` instance representing a Vector which components are velocities of zero mph.
+  static var zeroMilesPerHour: SKVector<UnitSpeed> {
+    .init(x: .zeroMilesPerHour, y: .zeroMilesPerHour, z: .zeroMilesPerHour)
+  }
+}
+
+public extension SKVector where UnitType == UnitAcceleration {
+  
+  /// A static `SKVector` instance representing a Vector which components are accelerations of zero m/s*s.
+  static var zeroMetersPerSecondSquared: SKVector<UnitAcceleration> {
+    .init(x: .zeroMetersPerSecondSquared, y: .zeroMetersPerSecondSquared, z: .zeroMetersPerSecondSquared)
+  }
+  
+  /// A static `SKVector` instance representing a Vector which components are accelerations of zero Gs.
+  static var zeroGs: SKVector<UnitAcceleration> {
+    .init(x: .zeroGs, y: .zeroGs, z: .zeroGs)
+  }
+}
+
+public extension SKVector where UnitType == UnitLength {
+  
+  /// A static `SKVector` instance representing a Vector which components are lenghts of zero meters.
+  static var zeroMeters: SKVector<UnitLength> {
+    .init(x: .zeroMeters, y: .zeroMeters, z: .zeroMeters)
+  }
+  
+  /// A static `SKVector` instance representing a Vector which components are lenghts of zero miles.
+  static var zeroMiles: SKVector<UnitLength> {
+    .init(x: .zeroMiles, y: .zeroMiles, z: .zeroMiles)
+  }
+}
+
+public extension SKVector where UnitType == UnitAngularVelocity {
+  
+  /// A static `SKVector` instance representing a Vector with angular velocities of zero radians per second.
+  static var zeroRadiansPerSecond: SKVector<UnitAngularVelocity> {
+    .init(x: .zeroRadiansPerSecond, y: .zeroRadiansPerSecond, z: .zeroRadiansPerSecond)
+  }
+  
+  /// A static `SKVector` instance representing a Vector with angular velocities of zero degrees per second.
+  static var zeroDegreesPerSecond: SKVector<UnitAngularVelocity> {
+    .init(x: .zeroDegreesPerSecond, y: .zeroDegreesPerSecond, z: .zeroDegreesPerSecond)
+  }
+}
+
+public extension SKVector where UnitType == UnitMagneticField {
+  
+  /// A static `SKVector` instance representing a Vector with magnetic field strengths of zero microteslas.
+  static var zeroMicroteslas: SKVector<UnitMagneticField> {
+    .init(x: .zeroMicroteslas, y: .zeroMicroteslas, z: .zeroMicroteslas)
+  }
+  
+  /// A static `SKVector` instance representing a Vector with magnetic field strengths of zero gauss.
+  static var zeroGauss: SKVector<UnitMagneticField> {
+    .init(x: .zeroGauss, y: .zeroGauss, z: .zeroGauss)
+  }
+}

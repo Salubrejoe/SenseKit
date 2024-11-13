@@ -17,7 +17,7 @@ public struct SKLocationAltitude: Sendable {
   ///
   /// Initializes a `SKLocationAltitude` instance with zero values for all measurements.
   public init() {
-    self.altitude = .zeroMeters
+    self.aboveSeaLevel = .zeroMeters
     self.ellipsoidalAltitude = .zeroMeters
     self.verticalUncertainty = .zeroMeters
   }
@@ -25,7 +25,7 @@ public struct SKLocationAltitude: Sendable {
   /// Initializes a `SKLocationAltitude` instance based on a `CLLocation` object.
   /// - Parameter location: A `CLLocation` object that contains altitude information.
   public init(from location: CLLocation) {
-    self.altitude = .init(value: location.altitude.rounded(), unit: .meters)
+    self.aboveSeaLevel = .init(value: location.altitude.rounded(), unit: .meters)
     self.ellipsoidalAltitude = .init(value: location.ellipsoidalAltitude.rounded(), unit: .meters)
     self.verticalUncertainty = .init(value: location.verticalAccuracy.rounded(), unit: .meters)
   }

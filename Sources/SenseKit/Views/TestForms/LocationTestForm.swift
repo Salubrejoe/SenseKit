@@ -36,7 +36,7 @@ public extension LocationTestForm {
   private var altitudeSection: some View {
     Section("Altitude") {
       if let altitude = location.snapshot?.altitude {
-        Text("Altitude: \(altitude.altitude.description(significantDigits: 0))")
+        Text("Altitude: \(altitude.aboveSeaLevel.description(significantDigits: 0))")
         Text("Ellipsoidal Altitude: \(altitude.ellipsoidalAltitude.description(significantDigits: 0))")
         Text("Vertical Uncertainty: \(altitude.verticalUncertainty.description(significantDigits: 1))")
       } else {

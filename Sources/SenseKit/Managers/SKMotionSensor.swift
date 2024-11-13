@@ -102,8 +102,8 @@ public extension SKMotionSensor {
     self.rotationRate     = SKDeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
     self.gravity          = SKDeviceMotionCalculator.shared.calculateGravity(from: motionData)
     self.userAcceleration = SKDeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
-    self.magneticField = SKDeviceMotionCalculator.shared.calculateMagneticField(from: motionData)
-    self.heading = SKDeviceMotionCalculator.shared.calculateHeading(from: motionData)
+    self.magneticField    = SKDeviceMotionCalculator.shared.calculateMagneticField(from: motionData)
+    self.heading          = SKDeviceMotionCalculator.shared.calculateHeading(from: motionData)
   }
 }
 

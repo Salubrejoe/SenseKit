@@ -76,37 +76,31 @@ public struct SKAttitudeModifier: ViewModifier {
         axis: (x: 0, y: 1, z: 0),
         perspective: 0
       )
-      .animation(animation, value: pitch)
-      .animation(animation, value: roll)
+      .animation(animation, value: currentPitch)
+      .animation(animation, value: currentRoll)
       .onChange(of: attitude.x.value, calculatePitch)
       .onChange(of: attitude.y.value, calculateRoll)
   }
   
   // Computed property for pitch, applying `pitchFactor` and optional normalization.
   private var pitch: Radians {
-    let pitch: Radians = currentPitch * pitchFactor
     if let normaliser {
-      return normaliser(currentPitch) * pitchFactor
+      currentPitch = normaliser(currentPitch)
     }
-    else {
-      return pitch
-    }
+    return currentPitch * rollFactor
   }
   
   // Computed property for roll, applying `rollFactor` and optional normalization.
   private var roll: Radians {
-    var roll: Radians = currentRoll * rollFactor
     if let normaliser {
-      return normaliser(currentRoll) * rollFactor
+      currentRoll = normaliser(currentRoll)
     }
-    else {
-      return roll
-    }
+    return currentRoll * rollFactor
   }
   
   // Computed property that retrieves the current attitude from the motion sensor.
   private var attitude: SKVector<UnitAngle> {
-    stream?.attitude ?? .init(x: .zeroRadians, y: .zeroRadians, z: .zeroRadians)
+    stream?.attitude ?? .zeroRadians
   }
   
   // Updates the current pitch based on changes in attitude.

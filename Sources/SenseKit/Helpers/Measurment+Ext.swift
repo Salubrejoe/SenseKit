@@ -41,6 +41,11 @@ public extension Measurement where UnitType == UnitLength {
   static var zeroMeters: Measurement<UnitLength> {
     .init(value: 0.0, unit: .meters)
   }
+  
+  /// A static `Measurement` instance representing a length of zero miles.
+  static var zeroMiles: Measurement<UnitLength> {
+    .init(value: 0.0, unit: .miles)
+  }
 }
 
 public extension Measurement where UnitType == UnitAngle {
@@ -59,15 +64,51 @@ public extension Measurement where UnitType == UnitAngle {
 public extension Measurement where UnitType == UnitSpeed {
   
   /// A static `Measurement` instance representing a speed of zero meters per second.
-  static var zeroMetersPerSeconds: Measurement<UnitSpeed> {
+  static var zeroMetersPerSecond: Measurement<UnitSpeed> {
     .init(value: 0.0, unit: .metersPerSecond)
+  }
+  
+  /// A static `Measurement` instance representing a speed of zero miles per hour.
+  static var zeroMilesPerHour: Measurement<UnitSpeed> {
+    .init(value: 0.0, unit: .milesPerHour)
   }
 }
 
 public extension Measurement where UnitType == UnitAcceleration {
   
   /// A static `Measurement` instance representing an acceleration of zero meters per second squared.
-  static var zeroMetersPerSecondsSquared: Measurement<UnitAcceleration> {
+  static var zeroMetersPerSecondSquared: Measurement<UnitAcceleration> {
     .init(value: 0.0, unit: .metersPerSecondSquared)
+  }
+  
+  /// A static `Measurement` instance representing an acceleration of zero Gs.
+  static var zeroGs: Measurement<UnitAcceleration> {
+    .init(value: 0.0, unit: .gravity)
+  }
+}
+
+public extension Measurement where UnitType == UnitAngularVelocity {
+  
+  /// A static `Measurement` instance representing an angular velocity of zero radians per second.
+  static var zeroRadiansPerSecond: Measurement<UnitAngularVelocity> {
+    .init(value: 0.0, unit: .radiansPerSecond)
+  }
+  
+  /// A static `Measurement` instance representing an angular velocity of zero degrees per second.
+  static var zeroDegreesPerSecond: Measurement<UnitAngularVelocity> {
+    .init(value: 0.0, unit: .degreesPerSecond)
+  }
+}
+
+public extension Measurement where UnitType == UnitMagneticField {
+  
+  /// A static `Measurement` instance representing a magnetic field strength of zero microteslas.
+  static var zeroMicroteslas: Measurement<UnitMagneticField> {
+    .init(value: 0.0, unit: .microteslas)
+  }
+  
+  /// A static `Measurement` instance representing a magnetic field strength of zero gauss.
+  static var zeroGauss: Measurement<UnitMagneticField> {
+    .init(value: 0.0, unit: .gauss)
   }
 }

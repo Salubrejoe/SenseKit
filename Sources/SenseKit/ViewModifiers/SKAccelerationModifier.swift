@@ -33,45 +33,38 @@ public struct SKAccelerationModifier: ViewModifier {
   public let normaliser: Normaliser?
   
   // State to store the current acceleration vector.
-  @State private var currentAcceleration: SKVector<UnitAcceleration> = .zero
+  @State private var currentOffset: CGSize = .zero
   
   /// Configures the offset effect on the `content` view.
   public func body(content: Content) -> some View {
     content
       .offset(finalOffset)
-      .animation(animation, value: finalOffset)
-      .onChange(of: acceleration, perform: calculateAcceleration)
+      .animation(animation, value: currentOffset)
+      .onChange(of: acceleration, perform: { newValue in
+        currentOffset = calculatedOffset
+      }
+      )
   }
   
   // Computed property to get the latest user acceleration data.
   private var acceleration: SKVector<UnitAcceleration> {
-    stream?.userAcceleration ?? .init(x: .zeroMetersPerSecondsSquared, y: .zeroMetersPerSecondsSquared, z: .zeroMetersPerSecondsSquared)
+    stream?.userAcceleration ?? .zeroGs
   }
   
   // Computed property to calculate the offset size based on current acceleration.
   private var calculatedOffset: CGSize {
-    guard let stream else { return .zero }
+    guard let _ = stream else { return .zero }
     return CGSize(
-      width:  currentAcceleration.x.value * offsetAt1G,
-      height: currentAcceleration.y.value * offsetAt1G
+      width:  acceleration.x.value * offsetAt1G,
+      height: acceleration.y.value * offsetAt1G
     )
   }
   
   // Applies the normalizer if available, or returns the raw calculated offset.
   private var finalOffset: CGSize {
-    if let normaliser = normaliser {
-      return normaliser(calculatedOffset)
-    } else {
-      return calculatedOffset
+    if let normaliser {
+      currentOffset = normaliser(currentOffset)
     }
-  }
-  
-  // Updates `currentAcceleration` when acceleration changes are detected.
-  //
-  // - Parameters:
-  //   - oldValue: The previous acceleration vector.
-  //   - newValue: The updated acceleration vector.
-  private func calculateAcceleration(_ oldValue: SKVector<UnitAcceleration>, _ newValue: SKVector<UnitAcceleration>) {
-    currentAcceleration = acceleration
+    return currentOffset
   }
 }
