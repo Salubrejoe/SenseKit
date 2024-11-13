@@ -31,6 +31,10 @@ public extension Measurement {
 }
 
 
+
+
+// MARK: - Zeros
+
 public extension Measurement where UnitType == UnitLength {
   
   /// A static `Measurement` instance representing a length of zero meters.
@@ -60,10 +64,9 @@ public extension Measurement where UnitType == UnitSpeed {
   }
 }
 
-
 public extension Measurement where UnitType == UnitAcceleration {
   
-  /// A static `Measurement` instance representing a speed of zero meters per second.
+  /// A static `Measurement` instance representing an acceleration of zero meters per second squared.
   static var zeroMetersPerSecondsSquared: Measurement<UnitAcceleration> {
     .init(value: 0.0, unit: .metersPerSecondSquared)
   }

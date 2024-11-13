@@ -10,7 +10,6 @@ import CoreMotion
 public class SKDeviceMotionCalculator: @unchecked Sendable {
   
   /// Shared singleton instance of `DeviceMotionCalculator`.
-//  @MainActor
   static public let shared = SKDeviceMotionCalculator()
   
   /// Calculates the device’s attitude (pitch, roll, and yaw) in radians.
@@ -69,17 +68,16 @@ public class SKDeviceMotionCalculator: @unchecked Sendable {
     Measurement<UnitAngle>(value: motionData.heading.roundTo(places: 2), unit: .degrees)
   }
   
-  /*
-   /// Calculates the magnetic field around the device in microteslas.
-   ///
-   /// - Parameter motionData: A `CMDeviceMotion` instance containing the device's current motion data.
-   /// - Returns: A `Vector<UnitMagneticField>` with `x`, `y`, and `z` components as `Measurement<UnitMagneticField>` values in microteslas.
-   public func calculateMagneticField(from motionData: CMDeviceMotion) -> Vector<UnitMagneticField> {
-   let field = motionData.magneticField.field
-   let x = Measurement<UnitMagneticField>(value: field.x, unit: .microteslas)
-   let y = Measurement<UnitMagneticField>(value: field.y, unit: .microteslas)
-   let z = Measurement<UnitMagneticField>(value: field.z, unit: .microteslas)
-   return Vector(x: x, y: y, z: z)
-   }
-   */
+  
+  /// Calculates the magnetic field around the device in microteslas.
+  ///
+  /// - Parameter motionData: A `CMDeviceMotion` instance containing the device's current motion data.
+  /// - Returns: A `Vector<UnitMagneticField>` with `x`, `y`, and `z` components as `Measurement<UnitMagneticField>` values in microteslas.
+  public func calculateMagneticField(from motionData: CMDeviceMotion) -> SKVector<UnitMagneticField> {
+    let field = motionData.magneticField.field
+    let x = Measurement<UnitMagneticField>(value: field.x, unit: .microteslas)
+    let y = Measurement<UnitMagneticField>(value: field.y, unit: .microteslas)
+    let z = Measurement<UnitMagneticField>(value: field.z, unit: .microteslas)
+    return SKVector(x: x, y: y, z: z)
+  }
 }

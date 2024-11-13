@@ -20,8 +20,10 @@ public class SKMotionSensor {
   public var attitude         : SKVector<UnitAngle> = .zero
   public var gravity          : SKVector<UnitAcceleration> = .zero
   public var userAcceleration : SKVector<UnitAcceleration> = .zero
+  public var magneticField    : SKVector<UnitMagneticField> = .zero
   public var magnetometer     : SKVector<UnitMagneticField> = .zero
   public var rotationRate     : SKVector<UnitAngularVelocity> = .zero
+  public var heading          : Measurement<UnitAngle> = .zeroDegrees
   
   
   /// The update interval for sensor data, in seconds.
@@ -100,6 +102,8 @@ public extension SKMotionSensor {
     self.rotationRate     = SKDeviceMotionCalculator.shared.calculateRotationRate(from: motionData)
     self.gravity          = SKDeviceMotionCalculator.shared.calculateGravity(from: motionData)
     self.userAcceleration = SKDeviceMotionCalculator.shared.calculateUserAcceleration(from: motionData)
+    self.magneticField = SKDeviceMotionCalculator.shared.calculateMagneticField(from: motionData)
+    self.heading = SKDeviceMotionCalculator.shared.calculateHeading(from: motionData)
   }
 }
 
