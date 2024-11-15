@@ -13,6 +13,11 @@ public struct MotionSensorTestForm: View {
       section(vector: motionSensor.gravity)
       section(vector: motionSensor.attitude)
       section(vector: motionSensor.rotationRate)
+      section(vector: motionSensor.magneticField)
+      
+      Section("Heading") {
+        Text("\(motionSensor.heading.description())")
+      }
     }
   }
 }

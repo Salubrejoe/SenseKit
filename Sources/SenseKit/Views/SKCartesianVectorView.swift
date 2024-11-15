@@ -77,16 +77,16 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
     return scene
   }
   
-  // MARK: - Node Creation
-  
+  // MARK: - Camera
   /// Creates a camera node positioned to view the scene.
   private func makeCameraNode() -> SCNNode {
     let cameraNode = SCNNode()
     cameraNode.camera = SCNCamera()
-    cameraNode.position = SCNVector3(x: 0, y: 0, z: 4 * scale)
+    cameraNode.position = SCNVector3(x: 0, y: 0, z: 4)
     return cameraNode
   }
   
+  // MARK: - Light
   /// Creates an ambient light node to illuminate the scene.
   private func makeLightNode() -> SCNNode {
     let lightNode = SCNNode()

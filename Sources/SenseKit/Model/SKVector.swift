@@ -1,4 +1,5 @@
 import SceneKit
+import SwiftUI
 
 /// `SKVector` is a generic class representing a vector in three-dimensional space.
 /// It supports any `UnitType` conforming to `Dimension`, allowing for vectors of various physical quantities
@@ -7,7 +8,7 @@ import SceneKit
 /// - `UnitType`: A generic constraint requiring the vector's unit type to conform to `Dimension`.
 ///               This allows instances to support units like meters, degrees, radians, etc.
 
-public class SKVector<UnitType: Dimension>: Equatable {
+public class SKVector<UnitType: Dimension>: Identifiable, Equatable {
   
   // MARK: - Typealiases
   /// Components of the vector represented as a tuple of `Double` values for the x, y, and z components.
@@ -18,6 +19,8 @@ public class SKVector<UnitType: Dimension>: Equatable {
   
   
   // MARK: - Properties
+  
+  public let id = UUID()
   
   /// X component of the vector.
   public var x: Measurement<UnitType>
@@ -143,6 +146,13 @@ public class SKVector<UnitType: Dimension>: Equatable {
     return (xValue, yValue, zValue)
   }
   
+  public var components: Components {
+    let xValue = x.value.roundTo(places: 1)
+    let yValue = y.value.roundTo(places: 1)
+    let zValue = z.value.roundTo(places: 1)
+    return (xValue, yValue, zValue)
+  }
+  
   
   
   // MARK: - NORMALISATION
@@ -183,6 +193,13 @@ public class SKVector<UnitType: Dimension>: Equatable {
     let xString = x.description(significantDigits: significantDigits, includeUnit: includeUnit)
     let yString = y.description(significantDigits: significantDigits, includeUnit: includeUnit)
     let zString = z.description(significantDigits: significantDigits, includeUnit: includeUnit)
+    return (xString, yString, zString)
+  }
+  
+  public var componentsDescriptions: Descriptors {
+    let xString = x.description(significantDigits: 1)
+    let yString = y.description(significantDigits: 1)
+    let zString = z.description(significantDigits: 1)
     return (xString, yString, zString)
   }
   
@@ -277,6 +294,27 @@ public extension SKVector {
       "Attitude"
     default:
       "Unknown"
+    }
+  }
+  
+  var color: Color {
+    switch x.unit.self {
+    case is UnitAcceleration:
+        .blue
+    case is UnitAngularVelocity:
+        .orange
+    case is UnitMagneticField:
+        .purple
+    case is UnitLength:
+        .green
+    case is UnitMass:
+        .gray
+    case is UnitPower:
+        .red
+    case is UnitAngle:
+        .yellow
+    default:
+        .black
     }
   }
 }

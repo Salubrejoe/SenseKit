@@ -15,8 +15,8 @@ public struct SKLocationSnapshot: Sendable {
     self.timestamp     = .now
     self.coordinates   = SKCoordinates()
     self.altitude      = SKLocationAltitude()
-    self.speed         = .zeroMetersPerSeconds
-    self.speedAccuracy = .zeroMetersPerSeconds
+    self.speed         = .zeroMetersPerSecond
+    self.speedAccuracy = .zeroMetersPerSecond
     self.floor         = nil
   }
   
