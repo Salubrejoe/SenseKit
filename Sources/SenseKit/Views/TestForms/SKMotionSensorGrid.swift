@@ -3,7 +3,7 @@ import SwiftUI
 import SenseKit
 
 
-public struct SKVectorGrid<Unit: Dimension>: View {
+public struct SKMotionSensorGrid<Unit: Dimension>: View {
   @Environment(SKMotionSensor.self) var motion
   @Namespace var animation
   @State private var selected: SKVectorType?
@@ -26,7 +26,7 @@ public struct SKVectorGrid<Unit: Dimension>: View {
         SKVectorCell(for: motion.userAcceleration, nature: .userAcceleration, selected: $selected)
           .matchedTransitionSource(id: motion.userAcceleration.id, in: animation)
         
-        SKVectorCell(for: motion.magnetometer, nature: .magnetometer, selected: $selected)
+        SKVectorCell(for: motion.magnetometerInGauss, nature: .magnetometer, selected: $selected)
           .matchedTransitionSource(id: motion.magnetometer.id, in: animation)
       } else {
         // Fallback on earlier versions
@@ -34,12 +34,12 @@ public struct SKVectorGrid<Unit: Dimension>: View {
     }
     .padding(.horizontal)
     .sheet(item: $selected) { type in
-      skVectorView(for: type)
+      skVectorViewSheet(for: type)
     }
   }
   
   @ViewBuilder
-  private func skVectorView(for type: SKVectorType) -> some View {
+  private func skVectorViewSheet(for type: SKVectorType) -> some View {
     
     if #available(iOS 18.0, *) {
       Group {

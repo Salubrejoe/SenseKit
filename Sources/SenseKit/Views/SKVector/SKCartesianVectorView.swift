@@ -13,7 +13,7 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   public let scale: Float
   
   /// Optional colors for the x, y, z axes and vector.
-  public var axisColors: [Axis: UIColor] = [.x: .secondaryLabel, .y: .secondaryLabel, .z: .secondaryLabel]
+  public var axisColors: [Axis: UIColor] = [.x: .label, .y: .label, .z: .label]
   public var vectorColor: UIColor = .label
   
   // MARK: - Initializer
@@ -82,7 +82,7 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   private func makeCameraNode() -> SCNNode {
     let cameraNode = SCNNode()
     cameraNode.camera = SCNCamera()
-    cameraNode.position = SCNVector3(x: 0, y: 0, z: 4)
+    cameraNode.position = SCNVector3(x: 0.2, y: 0.2, z: 5)
     return cameraNode
   }
   
@@ -96,47 +96,58 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
     return lightNode
   }
   
+  
+  // MARK: - AXIS
   /// Creates an axis node for the specified axis.
   /// - Parameter axis: The axis to create (`x`, `y`, or `z`).
   /// - Returns: A configured `SCNNode` representing the specified axis.
+  ///
+  private var letterScaleFloat : Float { 0.02*scale }
+  private var axisScaleCGFloat : CGFloat { CGFloat(letterScaleFloat) }
+  private var scaleHalved      : Float { scale / 2 }
+  private var letterPadding    : Float { 0.02*scale }
   private func makeAxisNode(axis: Axis) -> SCNNode {
-    let axisNode = SCNNode(geometry: SCNCylinder(radius: 0.01*CGFloat(scale), height: CGFloat(scale)))
+
+    let axisNode = SCNNode(geometry: SCNTube(innerRadius: 0, outerRadius: axisScaleCGFloat, height: CGFloat(scale)))
     axisNode.geometry?.firstMaterial?.diffuse.contents = axisColors[axis]
-    
-    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.01*CGFloat(scale)))
-    tipNode.geometry?.firstMaterial?.diffuse.contents = axisColors[axis]
+
+    let letterNode = SCNNode(geometry: SCNText(string: axis.rawValue, extrusionDepth: 2))
+    letterNode.geometry?.firstMaterial?.diffuse.contents = axisColors[axis]
+    letterNode.simdScale = .init(x: letterScaleFloat, y: letterScaleFloat, z: letterScaleFloat)
     
     switch axis {
     case .x:
-      tipNode.position = SCNVector3(0, -scale/2, 0)
-      axisNode.position = SCNVector3(scale / 2, 0, 0)
+      axisNode.position = SCNVector3(x: scaleHalved, y: 0, z: 0)
       axisNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
+      letterNode.position = SCNVector3(x: 0, y: -1 * (scaleHalved + (letterPadding) ), z: 0)
+      letterNode.eulerAngles = SCNVector3(0, 0, -1 * Float.pi / 2)
+//      letterNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
     case .y:
-      tipNode.position = SCNVector3(0, scale/2, 0)
-      axisNode.position = SCNVector3(0, scale / 2, 0)
+      axisNode.position = SCNVector3(x: 0, y: scaleHalved, z: 0)
+      letterNode.position = SCNVector3(x: 0, y: scaleHalved + letterPadding, z: 0)
     case .z:
-      tipNode.position = SCNVector3(0, scale/2, 0)
-      axisNode.position = SCNVector3(0, 0, scale / 2)
+      axisNode.position = SCNVector3(x: 0, y: 0, z: scaleHalved)
+      letterNode.position = SCNVector3(x: 0, y: scaleHalved + letterPadding, z: 0)
       axisNode.eulerAngles = SCNVector3(Float.pi / 2, 0, 0)
+//      letterNode.eulerAngles = SCNVector3(Float.pi / 2, 0, 0)
     }
-    axisNode.addChildNode(tipNode)
+    
+    axisNode.addChildNode(letterNode)
+    
     return axisNode
   }
   
+  
+  // MARK: - VECTOR NODE
   /// Creates a vector node based on the given vector values.
   /// - Parameter vector: The vector to create a node for.
   /// - Returns: An `SCNNode` representing the vector.
   private func makeVectorNode(vector: SKVector<UnitType>) -> SCNNode {
     let magnitude = CGFloat(vector.magnitude().value) * CGFloat(scale)
-    let vectorGeometry = SCNCylinder(radius: 0.015*CGFloat(scale), height: magnitude)
+    let vectorGeometry = SCNCapsule(capRadius: 0.04*CGFloat(scale), height: magnitude)
     vectorGeometry.firstMaterial?.diffuse.contents = vectorColor
-    
-    let tipNode = SCNNode(geometry: SCNSphere(radius: 0.015*CGFloat(scale)))
-    tipNode.geometry?.firstMaterial?.diffuse.contents = vectorColor
-    tipNode.position = SCNVector3(0, magnitude/2, 0)
-    
+
     let vectorNode = SCNNode(geometry: vectorGeometry)
-    vectorNode.addChildNode(tipNode)
     vectorNode.name = "vectorNode"
     vectorNode.position = SCNVector3(0, magnitude / 2, 0)
     vectorNode.rotate(by: vector.quaternion(), aroundTarget: SCNVector3(0, 0, 0))
@@ -146,7 +157,7 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   
   /// Creates a center node, which is a small sphere at the origin, for visual reference.
   private func makeCenterNode() -> SCNNode {
-    let centerNode = SCNNode(geometry: SCNSphere(radius: 0.015*CGFloat(scale)))
+    let centerNode = SCNNode(geometry: SCNSphere(radius: 0.04*CGFloat(scale)))
     centerNode.geometry?.firstMaterial?.diffuse.contents = vectorColor
     return centerNode
   }
@@ -154,7 +165,7 @@ public struct SKCartesianVectorView<UnitType: Dimension>: UIViewRepresentable {
   // MARK: - Axis Enum
   
   /// Enum to represent the 3D coordinate axes.
-  public enum Axis: CaseIterable {
+  public enum Axis: String, CaseIterable {
     case x, y, z
   }
 }

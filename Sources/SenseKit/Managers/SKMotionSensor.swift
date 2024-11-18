@@ -131,6 +131,13 @@ public extension SKMotionSensor {
       }
     }
   }
+  
+  public var magnetometerInGauss: SKVector<UnitMagneticField> {
+    let newX = magnetometer.x.converted(to: .gauss)
+    let newY = magnetometer.y.converted(to: .gauss)
+    let newZ = magnetometer.z.converted(to: .gauss)
+    return SKVector(x: newX, y: newY, z: newZ)
+  }
 }
 
 
